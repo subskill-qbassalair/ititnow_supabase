@@ -1,9 +1,41 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 function FilterContainer() {
-    function handleModal(budget: string) {
+    const [isLoading, setIsLoading] = useState(false)
+    const handleModal = (modalType: string) => {
 
+        if(modal === ''){
+            setModal(modalType)
+            Animated.timing(topAnim, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        } else if (modal === modalType) {
+            Animated.timing(topAnim, {
+                toValue: 1000,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+            setTimeout(() => {
+                setModal('')
+
+            }, 300)
+
+        } else {
+            setModal(modalType)
+            Animated.timing(topAnim, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        }
+    }
+
+    const handleFetch = () => {
+        setIsEnabled(true)
+        setIsLoading(true)
     }
 
     return (
@@ -37,10 +69,10 @@ function FilterContainer() {
                 <View style={styles.containerBigCta} >
                     { <TouchableOpacity
                         style={[styles.btn, styles.bigCta]}
-                        // onPress={() => handleFetch()}
+                        onPress={() => handleFetch()}
                     >
-                        {/*<Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>*/}
-                        <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >Trouve moi un restau</Text>
+                        <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>
+                        {/*<Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >Trouve moi un restau</Text>*/}
                     </TouchableOpacity> }
                 </View>
         </View>

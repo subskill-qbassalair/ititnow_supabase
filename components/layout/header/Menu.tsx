@@ -1,9 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable, TouchableOpacity} from "react-native";
-
 import {useNavigation} from "@react-navigation/native";
-// import {useDispatch} from "react-redux";
-// import {userLoggedIn} from "../../../redux/slices/checkUser";
 
 function Menu() {
     const navigation = useNavigation()

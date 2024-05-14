@@ -4,13 +4,28 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, } from 'react-native';
 import Mapbox from '@rnmapbox/maps';
 import * as Location from "expo-location";
+import {useQuery} from "@tanstack/react-query";
+import getNearbyRestaurants from "../../api/nearbyRestaurants";
+import {useNavigation} from "@react-navigation/native";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
+
+type NavParamList = {
+    Result: {
+        restaurants: any;
+    };
+};
 
 
 const CustomMap = () => {
+    const navigation = useNavigation<StackNavigationProp<NavParamList, 'Result'>>();
     const [status, setStatus] = useState<string | null>(null);
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
+    const [isEnabled, setIsEnabled] = useState(false);
+    const distance = 350
+    const price = 2
+    const cuisineType = "Pizza"
+
 
     useEffect(() => {
         (async () => {
@@ -24,6 +39,25 @@ const CustomMap = () => {
             setLongitude(location.coords.longitude);
         })();
     }, []);
+
+    const {data} = useQuery({
+        queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude}],
+        queryFn: getNearbyRestaurants,
+        enabled: isEnabled,
+    })
+
+    useEffect(() => {
+        if(data && data.length > 0){
+            setIsLoading(false)
+            navigation.navigate('Result', {
+                restaurants: data
+            })
+            setIsEnabled(false)
+        } else {
+            setIsEnabled(false)
+        }
+
+    }, [data]);
 
     let view = <View style={styles.page}>
         <View style={styles.container}>

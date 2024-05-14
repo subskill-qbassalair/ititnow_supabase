@@ -13,6 +13,7 @@ function Home({ session }: { session: Session }) {
             <Burger/>
             <CustomMap/>
             <FilterContainer/>
+
         </View>
     );
 }
