@@ -9,22 +9,18 @@ import getNearbyRestaurants from "../../api/nearbyRestaurants";
 import {useNavigation} from "@react-navigation/native";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
-type NavParamList = {
-    Result: {
-        restaurants: any;
-    };
-};
-
 
 const CustomMap = () => {
-    const navigation = useNavigation<StackNavigationProp<NavParamList, 'Result'>>();
-    const [status, setStatus] = useState<string | null>(null);
-    const [latitude, setLatitude] = useState<number | null>(null);
-    const [longitude, setLongitude] = useState<number | null>(null);
-    const [isEnabled, setIsEnabled] = useState(false);
-    const distance = 350
-    const price = 2
-    const cuisineType = "Pizza"
+    const navigation = useNavigation()
+    const [status, setStatus] = useState<string | null>(null)
+    const [latitude, setLatitude] = useState<number | null>(null)
+    const [longitude, setLongitude] = useState<number | null>(null)
+    const [isEnabled, setIsEnabled] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+
+
+
 
 
     useEffect(() => {
@@ -37,27 +33,10 @@ const CustomMap = () => {
             let location = await Location.getCurrentPositionAsync({});
             setLatitude(location.coords.latitude);
             setLongitude(location.coords.longitude);
+            console.log(latitude, longitude)
         })();
     }, []);
 
-    const {data} = useQuery({
-        queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude}],
-        queryFn: getNearbyRestaurants,
-        enabled: isEnabled,
-    })
-
-    useEffect(() => {
-        if(data && data.length > 0){
-            setIsLoading(false)
-            navigation.navigate('Result', {
-                restaurants: data
-            })
-            setIsEnabled(false)
-        } else {
-            setIsEnabled(false)
-        }
-
-    }, [data]);
 
     let view = <View style={styles.page}>
         <View style={styles.container}>

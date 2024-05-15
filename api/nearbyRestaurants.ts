@@ -2,13 +2,13 @@ import axios from 'axios';
 // @ts-ignore
 import { GOOGLE_PLACES_API_KEY } from "@env";
 
-interface QueryKey {
-    distance: number;
-    price: number;
-    cuisineType: string;
-    latitude: number;
-    longitude: number;
-}
+// interface QueryKey {
+//     distance: number;
+//     price: number;
+//     cuisineType: string;
+//     latitude: number;
+//     longitude: number;
+// }
 
 interface Restaurant {
     rating: number;
@@ -16,17 +16,22 @@ interface Restaurant {
 
 
 const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
+    console.log("yooooooooo")
     const [key, { distance, price, cuisineType, latitude, longitude }] = queryKey;
+    const lat = 37.785834
+    const long = -122.406417
+
     try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
             params: {
-                location: `${latitude},${longitude}`,
-                radius: distance,
+                // location: `${latitude},${longitude}`,
+                location: `${lat},${long}`,
+                radius: 3000,
                 type: 'restaurant',
-                keyword: cuisineType,
+                keyword: "pizza",
                 key: GOOGLE_PLACES_API_KEY,
                 opennow: false,
-                price_level: price,
+                price_level: 2,
             }
         })
 
@@ -34,7 +39,7 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
         const filteredRestaurants = allRestaurants.filter((restaurant: Restaurant) =>
             restaurant.rating >= 4 );
 
-        // console.log("filteredRestaurants: ", filteredRestaurants)
+        console.log("filteredRestaurants: ", filteredRestaurants)
 
         return filteredRestaurants;
     } catch (e) {

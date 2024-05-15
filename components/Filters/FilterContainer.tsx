@@ -1,8 +1,48 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useQuery} from "@tanstack/react-query";
+import getNearbyRestaurants from "../../api/nearbyRestaurants";
+import {useNavigation} from "@react-navigation/native";
+type ResultNavigationProp = {
+    Result: {
+        restaurants: any[]
+    }
+}
+
 
 function FilterContainer() {
     const [isLoading, setIsLoading] = useState(false)
+    const [modal, setModal] = useState('')
+    const [isEnabled, setIsEnabled] = useState(false)
+    const topAnim = useRef(new Animated.Value(1000)).current
+    const navigation = useNavigation()
+    const [status, setStatus] = useState<string | null>(null)
+    const [latitude, setLatitude] = useState<number | null>(null)
+    const [longitude, setLongitude] = useState<number | null>(null)
+    const distance = 350
+    const price = 2
+    const cuisineType = "Pizza"
+
+    const {data} = useQuery({
+        queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude}],
+        queryFn: getNearbyRestaurants,
+        enabled: isEnabled,
+    })
+
+    useEffect(() => {
+        if(data && data.length > 0){
+            setIsLoading(false)
+            navigation.navigate<ResultNavigationProp>('Result', {
+                restaurants: data
+            })
+            setIsEnabled(false)
+        } else {
+            setIsEnabled(false)
+        }
+
+    }, [data]);
+
+
     const handleModal = (modalType: string) => {
 
         if(modal === ''){
