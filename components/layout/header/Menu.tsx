@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable, TouchableOpacity} from "react-native";
 import {useNavigation} from "@react-navigation/native";
+import { AntDesign } from '@expo/vector-icons';
 
 function Menu() {
     const navigation = useNavigation()
     // const dispatch = useDispatch()
-
 
     async function signOut() {
 
@@ -15,8 +15,7 @@ function Menu() {
         <View style={styles.container}>
             <View>
                 <TouchableOpacity onPress={()=> {navigation.goBack()}} style={styles.containerClose} >
-                    <View style={styles.close} />
-                    <View style={[styles.close, {transform: [{rotate: '-45deg'}]}]} />
+                    <AntDesign name="close" size={24} color="black" />
                 </TouchableOpacity>
                 <Text style={{textAlign:'center', color:'white', fontSize:25, fontFamily:'PoppinsBold' }} >Paramètres</Text>
             </View>

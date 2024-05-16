@@ -16,7 +16,6 @@ interface Restaurant {
 
 
 const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
-    console.log("yooooooooo")
     const [key, { distance, price, cuisineType, latitude, longitude }] = queryKey;
     const lat = 37.785834
     const long = -122.406417
@@ -39,7 +38,6 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
         const filteredRestaurants = allRestaurants.filter((restaurant: Restaurant) =>
             restaurant.rating >= 4 );
 
-        console.log("filteredRestaurants: ", filteredRestaurants)
 
         return filteredRestaurants;
     } catch (e) {

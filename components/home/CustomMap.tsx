@@ -18,11 +18,6 @@ const CustomMap = () => {
     const [isEnabled, setIsEnabled] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
-
-
-
-
-
     useEffect(() => {
         (async () => {
             let { status } = await  Location.requestForegroundPermissionsAsync();

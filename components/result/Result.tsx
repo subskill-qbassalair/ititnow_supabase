@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from "react-native";
 import * as Clipboard from 'expo-clipboard';
+import Back from "../layout/header/Back";
 
 function Result({route, navigation}) {
     const {restaurants} = route.params;
@@ -11,7 +12,8 @@ function Result({route, navigation}) {
 
     return (
         <ScrollView style={styles.container}>
-            {/*Back btn*/}
+        <Back navigation={navigation} />
+            <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', marginTop: 20}} >Résultats</Text>
             <View style={styles.containerItems}>
                 {
                     restaurants.map(restaurant => (
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
     },
     containerItems: {
         flex: 1,
-        paddingTop: 90,
+        paddingTop: 20,
         paddingHorizontal: 15,
     },
     item: {
