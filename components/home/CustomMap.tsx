@@ -4,8 +4,6 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, } from 'react-native';
 import Mapbox from '@rnmapbox/maps';
 import * as Location from "expo-location";
-import {useQuery} from "@tanstack/react-query";
-import getNearbyRestaurants from "../../api/nearbyRestaurants";
 import {useNavigation} from "@react-navigation/native";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 

@@ -3,6 +3,7 @@ import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useQuery} from "@tanstack/react-query";
 import getNearbyRestaurants from "../../api/nearbyRestaurants";
 import {useNavigation} from "@react-navigation/native";
+import {globalStyles} from "../../style";
 type ResultNavigationProp = {
     Result: {
         restaurants: any[]
@@ -80,10 +81,10 @@ function FilterContainer() {
 
     return (
 
-            <View style={styles.containerMain} >
+            <View style={[styles.containerMain, globalStyles.shadow]} >
                 <View style={styles.containerMainTop}>
                     <TouchableOpacity
-                        style={[styles.btnMoreFilter, styles.btn]}
+                        style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
                         onPress={ () => handleModal('moreFilters') }
                     >
                         <Text style={{fontSize:14}}>Plus de filtre</Text>
@@ -92,7 +93,7 @@ function FilterContainer() {
 
                 <View style={styles.containerMiddle} >
                     <TouchableOpacity
-                        style={[styles.btnFilter, styles.btn]}
+                        style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
                         onPress={ () => handleModal('budget') }
                     >
                         <Text style={{fontSize:16}}>Mon budget</Text>
@@ -100,7 +101,7 @@ function FilterContainer() {
 
 
                     <TouchableOpacity
-                        style={[styles.btnFilter, styles.btn]}
+                        style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
                         onPress={ () => handleModal('distance') }
                     >
                         <Text style={{fontSize:16}}>Distance</Text>
@@ -108,7 +109,7 @@ function FilterContainer() {
                 </View>
                 <View style={styles.containerBigCta} >
                     { <TouchableOpacity
-                        style={[styles.btn, styles.bigCta]}
+                        style={[styles.btn, styles.bigCta, globalStyles.shadow]}
                         onPress={() => handleFetch()}
                     >
                         <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>

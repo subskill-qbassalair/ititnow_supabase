@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons';
+import { globalStyles } from "../../../style";
 
 
 function Burger() {
@@ -11,7 +12,7 @@ function Burger() {
     return (
         <TouchableOpacity
             onPress={()=> { navigation.navigate('Menu') }}
-            style={styles.container}
+            style={[styles.container, globalStyles.shadow]}
         >
             <Feather name="menu" size={24} color="black" />
         </TouchableOpacity>
@@ -31,14 +32,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 9000,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.40,
-        shadowRadius: 3.84,
-
-        elevation: 7,
     },
 })
