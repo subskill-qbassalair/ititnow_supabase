@@ -6,17 +6,19 @@ import Back from "../layout/header/Back";
 function Result({route, navigation}) {
     const {restaurants} = route.params;
     const [copiedText, setCopiedText] = React.useState('')
-    const copyToClipboard = async (adress) => {
-        await Clipboard.setStringAsync(adress);
+    const copyToClipboard = async (address: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined) => {
+        if (typeof address === "string") {
+            await Clipboard.setStringAsync(address);
+        }
     };
 
     return (
         <ScrollView style={styles.container}>
         <Back navigation={navigation} />
-            <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', marginTop: 20}} >Résultats</Text>
+            <Text style={{textAlign: 'center',color:'white', fontSize: 40, fontWeight: 'bold', marginTop: 20}} >Résultats</Text>
             <View style={styles.containerItems}>
                 {
-                    restaurants.map(restaurant => (
+                    restaurants.map((restaurant: { place_id: React.Key | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; photos: { photo_reference: any; }[]; rating: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; vicinity: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined; }) => (
 
                         <View key={restaurant.place_id} style={styles.item} >
                             <Text style={styles.restauName} >{restaurant.name}</Text>
@@ -50,6 +52,15 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 20,
         paddingHorizontal: 15,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.40,
+        shadowRadius: 3.84,
+
+        elevation: 7,
     },
     item: {
         backgroundColor: 'white',

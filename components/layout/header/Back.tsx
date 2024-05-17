@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {StyleSheet, TouchableOpacity} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
 
@@ -26,5 +26,14 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.40,
+        shadowRadius: 3.84,
+
+        elevation: 7,
     }
 })

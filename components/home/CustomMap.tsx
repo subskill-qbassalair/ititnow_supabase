@@ -17,6 +17,7 @@ const CustomMap = () => {
     const [longitude, setLongitude] = useState<number | null>(null)
     const [isEnabled, setIsEnabled] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const mapref = React.useRef(null)
 
     useEffect(() => {
         (async () => {
@@ -28,7 +29,7 @@ const CustomMap = () => {
             let location = await Location.getCurrentPositionAsync({});
             setLatitude(location.coords.latitude);
             setLongitude(location.coords.longitude);
-            console.log(latitude, longitude)
+            console.log(location.coords.latitude, location.coords.longitude)
         })();
     }, []);
 
@@ -42,11 +43,12 @@ const CustomMap = () => {
                 logoEnabled={false}
                 compassEnabled={false}
                 scaleBarEnabled={false}
+                ref={mapref}
             >
                 <Mapbox.Camera followZoomLevel={14} followUserLocation/>
                 <Mapbox.UserLocation visible={true} animated={true}/>
                 {/*Markers*/}
-                <Mapbox.MarkerView id={'marker-1'} coordinate={[48.929023073783654 , 2.2787209972705478]}/>
+                <Mapbox.MarkerView id={'marker-1'} coordinate={[37.785834 , -122.406417]}/>
             </Mapbox.MapView>
         </View>
     </View>;
@@ -63,6 +65,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
     },
     container: {
         height: "100%",
