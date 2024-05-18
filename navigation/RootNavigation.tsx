@@ -6,7 +6,7 @@ import {supabase} from "../lib/supabase";
 import Home from "../components/home/Home";
 import Menu from "../components/layout/header/Menu";
 import Result from "../components/result/Result";
-import Auth from "../components/auth/Auth";
+import Layout from "../components/auth/Layout";
 
 
 function RootNavigation() {
@@ -54,7 +54,7 @@ function RootNavigation() {
             ) : (
                 <>
                     <Stack.Screen
-                        name="AuthLayout" component={Auth}
+                        name="AuthLayout" component={Layout}
                         options={{headerShown: false, animation: 'slide_from_right'}}
                     />
                 </>
