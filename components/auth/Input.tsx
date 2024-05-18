@@ -10,7 +10,7 @@ function Input({placeHolder, type, iconLeft, iconRight, onChangeText, value  }) 
     const [secureTextEntry, setSecureTextEntry] = useState(true);
 
 
-    const listenInput = (value) => {
+    const listenInput = (value: string) => {
         onChangeText(value)
         if (value.length > 0) {
             setOpacity(1);
@@ -42,7 +42,7 @@ function Input({placeHolder, type, iconLeft, iconRight, onChangeText, value  }) 
                 onChangeText={listenInput}
                 value={value}
                 placeholder={placeHolder}
-                secureTextEntry={type && secureTextEntry ? true : false}
+                secureTextEntry={type === "password" && secureTextEntry}
             />
             <Pressable onPress={handleIconFeature} >
                 <View style={ {width: 30, display:'flex', alignItems:'center', paddingRight:20, opacity:opacity } } >

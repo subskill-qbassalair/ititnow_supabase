@@ -9,10 +9,8 @@ import {supabase} from "../../lib/supabase";
 
 function Register() {
 
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmationCode, setConfirmationCode] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,12 +26,10 @@ function Register() {
             password: password,
         })
 
-        if (error) Alert.alert(error.message)
-        if (!session) Alert.alert('Please check your inbox for email verification!')
+        // if (error) Alert.alert(error.message)
+        if (!session) setModalVisible(true)
         setLoading(false)
     }
-
-
 
     return (
         <View>
@@ -64,21 +60,11 @@ function Register() {
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <Text style={styles.titleModal} >{showConfirmationMessage ? 'Félicitation, votre compte à bien été validé.' : 'Vérifier votre compte'}</Text>
-
                             {showConfirmationMessage ? <Cta text={'Fermer'} onPress={ ()=> {setModalVisible(false)} } />  : <>
-                                <Text style={styles.bodyModal} >Saisissez le code à 6 chiffres reçu à l'adresse: </Text>
+                                <Text style={styles.bodyModal} >Merci de cliquer sur le lien de confirmation reçu par mail à l'adresse suivante :</Text>
                                 <Text style={styles.emailModal} >{email}</Text>
-                                <Input
-                                    placeHolder={'Code de confirmation'}
-                                    type={'text'}
-                                    iconLeft={null} iconRight={25}
-                                    onChangeText={setConfirmationCode}
-                                    value={confirmationCode}
-                                />
-                                <Cta text={'Confirmer'} />
+                                <Cta text={'Confirmer'} onPress={() => {setModalVisible(false)}} />
                             </> }
-
-
                         </View>
                     </View>
                 </Modal>
