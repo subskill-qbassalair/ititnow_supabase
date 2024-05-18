@@ -1,9 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useQuery} from "@tanstack/react-query";
-import getNearbyRestaurants from "../../api/nearbyRestaurants";
+import getNearbyRestaurants from "../../../api/nearbyRestaurants";
 import {useNavigation} from "@react-navigation/native";
-import {globalStyles} from "../../style";
+import {globalStyles} from "../../../style";
+import ModalFilter from "./ModalFilter";
+
 type ResultNavigationProp = {
     Result: {
         restaurants: any[]
@@ -45,7 +47,6 @@ function FilterContainer() {
 
 
     const handleModal = (modalType: string) => {
-
         if(modal === ''){
             setModal(modalType)
             Animated.timing(topAnim, {
@@ -61,7 +62,6 @@ function FilterContainer() {
             }).start();
             setTimeout(() => {
                 setModal('')
-
             }, 300)
 
         } else {
@@ -80,17 +80,19 @@ function FilterContainer() {
     }
 
     return (
-
+        <>
+            <Animated.View style={[ modal === 'moreFilters' ? styles.modalMoreFilters : styles.modal , globalStyles.shadow, { transform: [{translateY: topAnim}] }]}>
+                <ModalFilter  modal={modal}  />
+            </Animated.View>
             <View style={[styles.containerMain, globalStyles.shadow]} >
                 <View style={styles.containerMainTop}>
                     <TouchableOpacity
                         style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
                         onPress={ () => handleModal('moreFilters') }
                     >
-                        <Text style={{fontSize:14}}>Plus de filtre</Text>
+                        <Text style={{fontSize:14}}>Plus de filtres</Text>
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.containerMiddle} >
                     <TouchableOpacity
                         style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
@@ -116,7 +118,8 @@ function FilterContainer() {
                         {/*<Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >Trouve moi un restau</Text>*/}
                     </TouchableOpacity> }
                 </View>
-        </View>
+            </View>
+        </>
     );
 }
 

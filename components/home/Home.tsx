@@ -2,9 +2,8 @@ import React from 'react';
 import {View, Text, StyleSheet} from "react-native";
 import { Session } from '@supabase/supabase-js'
 import CustomMap from "./CustomMap";
-import FilterContainer from "../Filters/FilterContainer";
+import FilterContainer from "./Filters/FilterContainer";
 import Burger from "../layout/header/Burger";
-
 
 
 function Home({ session }: { session: Session }) {
@@ -13,7 +12,6 @@ function Home({ session }: { session: Session }) {
             <Burger/>
             <CustomMap/>
             <FilterContainer/>
-
         </View>
     );
 }
