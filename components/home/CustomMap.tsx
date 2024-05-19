@@ -7,7 +7,6 @@ import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
-
 const CustomMap = () => {
     const navigation = useNavigation()
     const [status, setStatus] = useState<string | null>(null)
@@ -27,7 +26,6 @@ const CustomMap = () => {
             let location = await Location.getCurrentPositionAsync({});
             setLatitude(location.coords.latitude);
             setLongitude(location.coords.longitude);
-            console.log(location.coords.latitude, location.coords.longitude)
         })();
     }, []);
 

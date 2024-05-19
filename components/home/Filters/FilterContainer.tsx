@@ -5,6 +5,7 @@ import getNearbyRestaurants from "../../../api/nearbyRestaurants";
 import {useNavigation} from "@react-navigation/native";
 import {globalStyles} from "../../../style";
 import ModalFilter from "./ModalFilter";
+import {useSelector} from "react-redux";
 
 type ResultNavigationProp = {
     Result: {
@@ -12,19 +13,20 @@ type ResultNavigationProp = {
     }
 }
 
-
 function FilterContainer() {
     const [isLoading, setIsLoading] = useState(false)
     const [modal, setModal] = useState('')
     const [isEnabled, setIsEnabled] = useState(false)
     const topAnim = useRef(new Animated.Value(1000)).current
-    const navigation = useNavigation()
+    const navigation = useNavigation<ResultNavigationProp>()
     const [status, setStatus] = useState<string | null>(null)
     const [latitude, setLatitude] = useState<number | null>(null)
     const [longitude, setLongitude] = useState<number | null>(null)
-    const distance = 350
-    const price = 2
-    const cuisineType = "Pizza"
+    const distance = useSelector(state => state.filters.distance)
+    const price = useSelector(state => state.filters.priceLevel)
+    const cuisineType = useSelector(state => state.filters.cuisineType)
+
+
 
     const {data} = useQuery({
         queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude}],
@@ -35,7 +37,7 @@ function FilterContainer() {
     useEffect(() => {
         if(data && data.length > 0){
             setIsLoading(false)
-            navigation.navigate<ResultNavigationProp>('Result', {
+            navigation.navigate('Result', {
                 restaurants: data
             })
             setIsEnabled(false)
@@ -44,7 +46,6 @@ function FilterContainer() {
         }
 
     }, [data]);
-
 
     const handleModal = (modalType: string) => {
         if(modal === ''){
