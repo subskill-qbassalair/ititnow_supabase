@@ -4,17 +4,15 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, } from 'react-native';
 import Mapbox from '@rnmapbox/maps';
 import * as Location from "expo-location";
-import {useNavigation} from "@react-navigation/native";
+import {useDispatch, useSelector} from "react-redux";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
+import {setLatitude, setLongitude} from "../../redux/slices/gpsPosition";
 
 const CustomMap = () => {
-    const navigation = useNavigation()
+
     const [status, setStatus] = useState<string | null>(null)
-    const [latitude, setLatitude] = useState<number | null>(null)
-    const [longitude, setLongitude] = useState<number | null>(null)
-    const [isEnabled, setIsEnabled] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
     const mapref = React.useRef(null)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         (async () => {
@@ -23,9 +21,9 @@ const CustomMap = () => {
                 setStatus('Permission to access location was denied');
                 return;
             }
-            let location = await Location.getCurrentPositionAsync({});
-            setLatitude(location.coords.latitude);
-            setLongitude(location.coords.longitude);
+            let location = await Location.getCurrentPositionAsync({})
+            dispatch(setLatitude(location.coords.latitude))
+            dispatch(setLongitude(location.coords.longitude))
         })();
     }, []);
 
