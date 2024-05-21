@@ -18,7 +18,7 @@ export default Cta;
 const styles = StyleSheet.create({
     cta: {
         backgroundColor: '#6FB2AE',
-        borderRadius: 30,
+        borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 22,
