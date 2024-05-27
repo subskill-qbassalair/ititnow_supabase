@@ -44,8 +44,7 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
         const allRestaurants = response.data.results;
         const filteredRestaurants = allRestaurants.filter((restaurant: Restaurant) =>
             restaurant.rating >= 4 );
-
-
+        console.log(filteredRestaurants[0])
         return filteredRestaurants;
     } catch (e) {
         console.log(e)
