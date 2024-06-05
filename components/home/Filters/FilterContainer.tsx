@@ -80,6 +80,10 @@ function FilterContainer() {
         setIsLoading(true)
     }
 
+    const navigateEventsScreen = () => {
+        navigation.navigate('EventsList')
+    }
+
     return (
         <>
             <Animated.View style={[ modal === 'moreFilters' ? styles.modalMoreFilters : styles.modal , globalStyles.shadow, { transform: [{translateY: topAnim}] }]}>
@@ -87,6 +91,14 @@ function FilterContainer() {
             </Animated.View>
             <View style={[styles.containerMain, globalStyles.shadow]} >
                 <View style={styles.containerMainTop}>
+
+                    <TouchableOpacity
+                        style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
+                        onPress={ () => navigateEventsScreen() }
+                    >
+                        <Text style={{fontSize:14}}>Évènements</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity
                         style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
                         onPress={ () => handleModal('moreFilters') }
@@ -147,7 +159,7 @@ const styles = StyleSheet.create({
     },
     containerMainTop: {
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
         width: '100%',
     },
     btn:{

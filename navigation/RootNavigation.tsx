@@ -7,6 +7,7 @@ import Home from "../components/home/Home";
 import Menu from "../components/layout/header/Menu";
 import Result from "../components/result/Result";
 import Layout from "../components/auth/Layout";
+import EventsList from "../components/home/Filters/EventsList";
 
 
 function RootNavigation() {
@@ -48,6 +49,10 @@ function RootNavigation() {
                     />
                     <Stack.Screen
                         name="Result" component={Result}
+                        options={{headerShown: false, animation: 'slide_from_bottom'}}
+                    />
+                    <Stack.Screen
+                        name={"EventsList"} component={EventsList}
                         options={{headerShown: false, animation: 'slide_from_bottom'}}
                     />
                 </>
