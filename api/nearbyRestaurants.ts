@@ -2,7 +2,6 @@ import axios from 'axios';
 // @ts-ignore
 import { GOOGLE_PLACES_API_KEY } from "@env";
 
-
 // interface QueryKey {
 //     distance: number;
 //     price: number;

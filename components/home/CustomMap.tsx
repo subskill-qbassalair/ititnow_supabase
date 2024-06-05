@@ -5,7 +5,6 @@ import {StyleSheet, View, } from 'react-native';
 import Mapbox from '@rnmapbox/maps';
 import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 const CustomMap = () => {
@@ -33,22 +32,20 @@ const CustomMap = () => {
 
     let view = <View style={styles.page}>
         <View style={styles.container}>
-            <MapboxGL.MapView
-                styleURL={Mapbox.StyleURL.Street}
-                zoomLevel={15}
-                centerCoordinate={[11.256, 43.770]}
-                showUserLocation={true}
-                style={styles.container}>
-                <MapboxGL.PointAnnotation
-                    key='pointAnnotation'
-                    id='pointAnnotation'
-                    coordinate={[11.254, 43.772]}>
-                    <View style={styles.annotationContainer}>
-                        <View style={styles.annotationFill} />
-                    </View>
-                    <MapboxGL.Callout title='Look! An annotation!' />
-                </MapboxGL.PointAnnotation>
-            </MapboxGL.MapView>
+            <Mapbox.MapView
+                style={styles.map}
+                styleURL="mapbox://styles/alimotor/clw6h3i3z01as01pfasmzeech"
+                projection={"mercator"}
+                logoEnabled={false}
+                compassEnabled={false}
+                scaleBarEnabled={false}
+                ref={mapref}
+            >
+                <Mapbox.Camera followZoomLevel={14} followUserLocation/>
+                <Mapbox.UserLocation visible={true} animated={true}/>
+                {/*Markers*/}
+                <Mapbox.MarkerView id={'marker-1'} coordinate={[37.785 , 12.406]}/>
+            </Mapbox.MapView>
         </View>
     </View>;
 
