@@ -6,6 +6,5 @@ export async function getEvents() {
 
 export async function getNextEvent() {
     const response = await axios.get(`${process.env.API_URL}/events/nextEvent`)
-    console.log(response.data)
     return response.data;
 }

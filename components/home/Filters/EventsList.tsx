@@ -1,10 +1,10 @@
 import React from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import Back from "../../layout/header/Back";
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useQuery} from "@tanstack/react-query";
-import {getEvents, getNextEvent} from "../../../api/getEvents";
+import { useQuery } from "@tanstack/react-query";
+import { getEvents, getNextEvent } from "../../../api/getEvents";
 import EventCard from "./EventCard";
 import BigEventCard from "./BigEventCard";
 
@@ -32,45 +32,52 @@ type Props = {
     navigation: EventsListScreenNavigationProp;
 };
 
-function EventsList({route, navigation}: Props) {
+function EventsList({ route, navigation }: Props) {
     const query = useQuery({
         queryKey: ['events'],
         queryFn: getEvents
-    })
+    });
 
     const nextEvent = useQuery({
         queryKey: ['nextEvent'],
         queryFn: getNextEvent
-    })
+    });
 
     return (
         <View style={styles.container}>
             <Back navigation={navigation} />
 
-            {/*Hero*/}
-            <BigEventCard data={nextEvent} />
+            {/* Hero */}
+            {nextEvent.isLoading ? (
+                <Text>Loading...</Text>
+            ) : nextEvent.isError ? (
+                <Text>Error loading next event</Text>
+            ) : (
+                <BigEventCard data={nextEvent.data} />
+            )}
 
-
-            {/*Soon events*/}
+            {/* Soon events */}
             <View style={styles.wrapperLine}>
-                <Text style={styles.title} >Les prochains évènements</Text>
+                <Text style={styles.title}>Les prochains évènements</Text>
                 <FlatList
                     horizontal
                     data={query.data}
-                    renderItem={(item) =>
-                        <EventCard data={item}   />
-                    }/>
+                    renderItem={({ item }) =>
+                        <EventCard data={item} />
+                    }
+                />
             </View>
 
-            {/*Next week events*/}
+            {/* Next week events */}
             <View style={styles.wrapperLine}>
-                <Text style={styles.title} >Pour plus tards...</Text>
+                <Text style={styles.title}>Pour plus tards...</Text>
                 <FlatList
                     horizontal
                     data={query.data}
-                    renderItem={(item) =>
-                        <EventCard data={item}   />
-                    }/>
+                    renderItem={({ item }) =>
+                        <EventCard data={item} />
+                    }
+                />
             </View>
         </View>
     );
@@ -91,4 +98,4 @@ const styles = StyleSheet.create({
     wrapperLine: {
         marginTop: 30,
     }
-})
+});

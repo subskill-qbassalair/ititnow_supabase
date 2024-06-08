@@ -16,15 +16,11 @@ interface Restaurant {
 
 
 const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
-    console.log('launch getNearbyRestaurants')
+
     const [key, { distance, price, cuisineType, latitude, longitude }] = queryKey;
-    console.log(latitude)
 
     const lat = 37.7749
     const long = -122.4194
-
-    console.log(distance, price)
-
 
     try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {

@@ -7,16 +7,15 @@ import {globalStyles} from "../../../style";
 const image = {uri: "https://reactjs.org/logo-og.png"};
 
 function EventCard({data}: any) {
-    console.log(data.item.title)
     return (
         <View style={[styles.container,  globalStyles.shadow]} >
             <ImageBackground source={image} resizeMode="cover" style={styles.image} >
                 <View style={styles.overlay}></View>
                 <View style={styles.cardInner}>
-                    <Text style={[styles.text, styles.title]} >{data.item.title}</Text>
+                    <Text style={[styles.text, styles.title]} >{data.title}</Text>
                     <View style={{display: 'flex', flexDirection:'row'}}>
-                    <View style={styles.bubble}><Text style={[styles.text, styles.location]} >{data.item.location}</Text></View>
-                    <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.item.startDate)}</Text></View>
+                    <View style={styles.bubble}><Text style={[styles.text, styles.location]} >{data.location}</Text></View>
+                    <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.startDate)}</Text></View>
                     </View>
                 </View>
             </ImageBackground>
