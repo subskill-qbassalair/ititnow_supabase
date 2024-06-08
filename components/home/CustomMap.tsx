@@ -5,6 +5,7 @@ import {StyleSheet, View, } from 'react-native';
 import Mapbox from '@rnmapbox/maps';
 import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
+import {DEFAULT_CENTER_COORDINATE} from "../../utils";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 const CustomMap = () => {
@@ -44,7 +45,7 @@ const CustomMap = () => {
                 <Mapbox.Camera followZoomLevel={14} followUserLocation/>
                 <Mapbox.UserLocation visible={true} animated={true}/>
                 {/*Markers*/}
-                <Mapbox.MarkerView id={'marker-1'} coordinate={[37.785 , 12.406]}/>
+                <Mapbox.MarkerView id={'marker-1'} coordinate={DEFAULT_CENTER_COORDINATE}/>
             </Mapbox.MapView>
         </View>
     </View>;

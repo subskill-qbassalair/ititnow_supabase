@@ -1,16 +1,24 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text} from "react-native";
+import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
 import Back from "../../layout/header/Back";
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useQuery, useQueryClient} from "@tanstack/react-query";
-import {getEvents} from "../../../api/getEvents";
-
-
+import { useQuery} from "@tanstack/react-query";
+import {getEvents, getNextEvent} from "../../../api/getEvents";
+import EventCard from "./EventCard";
+import BigEventCard from "./BigEventCard";
 
 type RootStackParamList = {
     EventsList: undefined;
 };
+
+type EventCard = {
+    id: string;
+    title: string;
+    date: string;
+    location: string;
+    image: string;
+}
 
 type EventsListScreenRouteProp = RouteProp<RootStackParamList, 'EventsList'>;
 
@@ -25,24 +33,46 @@ type Props = {
 };
 
 function EventsList({route, navigation}: Props) {
-
-    const queryClient = useQueryClient()
     const query = useQuery({
         queryKey: ['events'],
         queryFn: getEvents
     })
 
+    const nextEvent = useQuery({
+        queryKey: ['nextEvent'],
+        queryFn: getNextEvent
+    })
+
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <Back navigation={navigation} />
-            <Text style={{textAlign: 'center',color:'white', fontSize: 40, fontWeight: 'bold', marginTop: 20}} >Les évènements</Text>
+
+            {/*Hero*/}
+            <BigEventCard data={nextEvent} />
 
 
-            {query.data?.map((event: any) => (
-                <Text key={event.id} style={{color: 'white', fontSize: 20, margin: 10}}>{event.title}</Text>
-            ))}
+            {/*Soon events*/}
+            <View style={styles.wrapperLine}>
+                <Text style={styles.title} >Les prochains évènements</Text>
+                <FlatList
+                    horizontal
+                    data={query.data}
+                    renderItem={(item) =>
+                        <EventCard data={item}   />
+                    }/>
+            </View>
 
-        </ScrollView>
+            {/*Next week events*/}
+            <View style={styles.wrapperLine}>
+                <Text style={styles.title} >Pour plus tards...</Text>
+                <FlatList
+                    horizontal
+                    data={query.data}
+                    renderItem={(item) =>
+                        <EventCard data={item}   />
+                    }/>
+            </View>
+        </View>
     );
 }
 
@@ -50,7 +80,15 @@ export default EventsList;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#51796F',
+        paddingHorizontal: 15,
     },
+    title: {
+        color: 'white',
+        fontSize: 22,
+        fontFamily: 'PoppinsBold',
+    },
+    wrapperLine: {
+        marginTop: 30,
+    }
 })

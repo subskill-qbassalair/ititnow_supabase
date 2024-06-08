@@ -1,5 +1,11 @@
 import axios from "axios";
 export async function getEvents() {
-    const response = await axios.get('http://localhost:8000/events')
+    const response = await axios.get(`${process.env.API_URL}/events`)
+    return response.data;
+}
+
+export async function getNextEvent() {
+    const response = await axios.get(`${process.env.API_URL}/events/nextEvent`)
+    console.log(response.data)
     return response.data;
 }
