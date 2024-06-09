@@ -41,7 +41,7 @@ function SingleEvent({route, navigation}) {
                 </View>
             </View>
 
-            <View style={{backgroundColor: 'white', paddingHorizontal:15, borderRadius: 8, width:'92%', marginHorizontal: 'auto', marginTop: 30 }} >
+            <View style={{backgroundColor: 'white', paddingHorizontal:15, borderRadius: 8, width:'92%', marginHorizontal: 'auto', marginTop: 15 }} >
                 <Text style={{fontWeight: 'bold', fontSize: 28,textAlign: 'center', paddingVertical:30}}>Le {convertDate(data.startDate)}</Text>
                 <Text>{data.description}</Text>
             </View>
