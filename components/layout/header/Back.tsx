@@ -17,13 +17,14 @@ export default Back;
 
 const styles = StyleSheet.create({
     container: {
+        position: 'absolute',
         zIndex: 1,
         backgroundColor: 'white',
         borderRadius: 50,
         width: 50,
         height: 50,
-        marginTop: 75,
-        marginLeft: 20,
+        top: 75,
+        left: 20,
         justifyContent: 'center',
         alignItems: 'center',
         shadowColor: "#000",

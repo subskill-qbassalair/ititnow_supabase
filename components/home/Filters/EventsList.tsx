@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
 import Back from "../../layout/header/Back";
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -44,7 +44,7 @@ function EventsList({ route, navigation }: Props) {
     });
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Back navigation={navigation} />
 
             {/* Hero */}
@@ -79,7 +79,7 @@ function EventsList({ route, navigation }: Props) {
                     }
                 />
             </View>
-        </View>
+        </ScrollView>
     );
 }
 

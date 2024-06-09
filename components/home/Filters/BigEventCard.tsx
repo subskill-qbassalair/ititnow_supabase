@@ -8,7 +8,6 @@ const image = {uri: "https://reactjs.org/logo-og.png"};
 
 
 function BigEventCard({data}: any) {
-    console.log(data)
     return (
       <View>
           <View style={[styles.container,  globalStyles.shadow]} >
@@ -16,7 +15,7 @@ function BigEventCard({data}: any) {
                   <ImageBackground source={image} resizeMode="cover" style={styles.image} >
                       <View style={styles.overlay}></View>
                       <View style={styles.cardInner}>
-                          {/*<Text style={[styles.text, styles.title]} >{data.title}</Text>*/}
+                          <Text style={[styles.text, styles.title]} >{data.title}</Text>
                           <View style={{display: 'flex', flexDirection:'row'}}>
                               <View style={styles.bubble}><Text style={[styles.text, styles.location]} >{data.location}</Text></View>
                               <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.startDate)}</Text></View>
@@ -35,7 +34,7 @@ export default BigEventCard;
 const styles = StyleSheet.create({
     container: {
         height: 200,
-        width: 200,
+        width: "100%",
         marginRight: 10,
         marginTop: 20,
         borderRadius: 8,
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 14,
-        marginBottom: 10,
     },
     bubble: {
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -76,6 +74,8 @@ const styles = StyleSheet.create({
     },
     location: {
         fontSize: 8,
+        backgroundColor: 'white',
+        color: 'black',
     },
     date: {
         fontSize: 8,

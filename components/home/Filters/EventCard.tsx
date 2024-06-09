@@ -1,25 +1,33 @@
 import React from 'react';
-import {View, Text, StyleSheet, ImageBackground} from "react-native";
+import {View, Text, StyleSheet, ImageBackground, Pressable} from "react-native";
 import globalStyle from "../../../globalStyle";
 import { eventCardDate } from "../../../utils";
 import {globalStyles} from "../../../style";
+import {useNavigation} from "@react-navigation/native";
 
 const image = {uri: "https://reactjs.org/logo-og.png"};
 
 function EventCard({data}: any) {
+    const navigation = useNavigation();
     return (
-        <View style={[styles.container,  globalStyles.shadow]} >
-            <ImageBackground source={image} resizeMode="cover" style={styles.image} >
-                <View style={styles.overlay}></View>
-                <View style={styles.cardInner}>
-                    <Text style={[styles.text, styles.title]} >{data.title}</Text>
-                    <View style={{display: 'flex', flexDirection:'row'}}>
-                    <View style={styles.bubble}><Text style={[styles.text, styles.location]} >{data.location}</Text></View>
-                    <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.startDate)}</Text></View>
+        <Pressable
+            key={data.id}
+            onPress={() =>  navigation.navigate('SingleEvent', {
+                event: data
+            }) }>
+            <View style={[styles.container,  globalStyles.shadow]} >
+                <ImageBackground source={image} resizeMode="cover" style={styles.image} >
+                    <View style={styles.overlay}></View>
+                    <View style={styles.cardInner}>
+                        <Text style={[styles.text, styles.title]} >{data.title}</Text>
+                        <View style={{display: 'flex', flexDirection:'row'}}>
+                            <View style={styles.bubble}><Text style={[styles.text, styles.location]} >{data.location}</Text></View>
+                            <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.startDate)}</Text></View>
+                        </View>
                     </View>
-                </View>
-            </ImageBackground>
-        </View>
+                </ImageBackground>
+            </View>
+        </Pressable>
     );
 }
 
@@ -54,13 +62,12 @@ const styles = StyleSheet.create({
     text: {
         color: 'white',
         fontSize: 10,
-        fontFamily: 'PoppinsBold',
+        fontWeight: 'bold',
         padding: 3,
     },
     title: {
         fontSize: 14,
-        fontFamily: 'PoppinsBold',
-
+        fontWeight: 'bold',
     },
     location: {
         color: 'black',

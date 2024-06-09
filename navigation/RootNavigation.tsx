@@ -8,6 +8,7 @@ import Menu from "../components/layout/header/Menu";
 import Result from "../components/result/Result";
 import Layout from "../components/auth/Layout";
 import EventsList from "../components/home/Filters/EventsList";
+import SingleEvent from "../components/events/SingleEvent";
 
 
 function RootNavigation() {
@@ -26,6 +27,9 @@ function RootNavigation() {
             setSession(session)
         })
     }, [])
+
+
+
 
 
     return (
@@ -52,8 +56,13 @@ function RootNavigation() {
                         options={{headerShown: false, animation: 'slide_from_bottom'}}
                     />
                     <Stack.Screen
-                        name={"EventsList"} component={EventsList}
+                        name="EventsList" component={EventsList}
                         options={{headerShown: false, animation: 'slide_from_bottom'}}
+                    />
+                    <Stack.Screen
+                        name="SingleEvent" component={SingleEvent}
+                        options={{headerShown: false, animation: 'slide_from_bottom'}}
+
                     />
                 </>
             ) : (
