@@ -4,18 +4,39 @@ import globalStyle from "../../../globalStyle";
 import { eventCardDate } from "../../../utils";
 import {globalStyles} from "../../../style";
 import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../../navigation/RootNavigation";
+import Animated, {FadeInDown} from 'react-native-reanimated';
+
 
 const image = {uri: "https://reactjs.org/logo-og.png"};
 
-function EventCard({data}: any) {
-    const navigation = useNavigation();
+export type Event = {
+    name: string;
+    location: string;
+    id: string;
+    title: string;
+    startDate: string;
+    description: string;
+    endDate: string;
+    imageUri: string;
+};
+
+type Props = {
+    data: Event
+}
+
+function EventCard({data}: Props) {
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     return (
         <Pressable
             key={data.id}
             onPress={() =>  navigation.navigate('SingleEvent', {
                 event: data
             }) }>
-            <View style={[styles.container,  globalStyles.shadow]} >
+            <Animated.View
+                sharedTransitionTag={data.id}
+                style={[styles.container,  globalStyles.shadow]} >
                 <ImageBackground source={image} resizeMode="cover" style={styles.image} >
                     <View style={styles.overlay}></View>
                     <View style={styles.cardInner}>
@@ -26,7 +47,7 @@ function EventCard({data}: any) {
                         </View>
                     </View>
                 </ImageBackground>
-            </View>
+            </Animated.View>
         </Pressable>
     );
 }

@@ -4,6 +4,7 @@ import RootNavigation from "./navigation/RootNavigation";
 import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
 import {Provider} from "react-redux";
 import store from "./redux/store";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 
 export default function App() {
@@ -13,9 +14,11 @@ export default function App() {
         <Provider store={store} >
             <QueryClientProvider client={queryClient} >
                 <GestureHandlerRootView style={ {flex:1} } >
-                    <NavigationContainer>
-                        <RootNavigation/>
-                    </NavigationContainer>
+                    <SafeAreaProvider>
+                        <NavigationContainer>
+                            <RootNavigation/>
+                        </NavigationContainer>
+                    </SafeAreaProvider>
                 </GestureHandlerRootView>
             </QueryClientProvider>
         </Provider>

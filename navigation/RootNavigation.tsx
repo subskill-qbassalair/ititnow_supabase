@@ -10,11 +10,18 @@ import Layout from "../components/auth/Layout";
 import EventsList from "../components/home/Filters/EventsList";
 import SingleEvent from "../components/events/SingleEvent";
 
+export type RootStackParamList = {
+    Home: undefined;
+    Menu: undefined;
+    Result: undefined;
+    EventsList: undefined;
+    SingleEvent: { event: any };
+}
 
 function RootNavigation() {
-    const Stack = createNativeStackNavigator()
+    const Stack = createNativeStackNavigator<RootStackParamList>()
     const navigation = useNavigation()
-    const [initialRoute, setInitialRoute] = useState('')
+    const [initialRoute, setInitialRoute] = useState('Auth')
 
     const [session, setSession] = useState<Session | null>(null)
 

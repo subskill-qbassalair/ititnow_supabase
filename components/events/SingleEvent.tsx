@@ -6,19 +6,35 @@ import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import {convertDate} from "../../utils";
+import {RouteProp} from "@react-navigation/native";
+import {RootStackParamList} from "../../navigation/RootNavigation";
+import Animated from 'react-native-reanimated';
+
 
 const image = {uri: "https://reactjs.org/logo-og.png"};
 
+type DetailEventRouteProp = RouteProp<RootStackParamList, 'SingleEvent'>
 
-function SingleEvent({route, navigation}) {
+type Props = {
+    route: DetailEventRouteProp;
+    navigation: any;
+};
+
+
+
+function SingleEvent({route, navigation}: Props) {
     const data = route.params.event
 
     return (
         <ScrollView >
             <Back navigation={navigation}/>
-            <ImageBackground source={image} resizeMode="cover" style={styles.image} >
-                <Text style={styles.title}>{data.title}</Text>
-            </ImageBackground>
+            <Animated.View
+                sharedTransitionTag={data.id}
+            >
+                <ImageBackground source={image} resizeMode="cover" style={styles.image} >
+                    <Text style={styles.title}>{data.title}</Text>
+                </ImageBackground>
+            </Animated.View>
 
             <View style={{backgroundColor: 'white', paddingHorizontal:15, borderRadius: 8, width:'92%', marginHorizontal: 'auto', marginTop: 15 }} >
                 <View style={styles.containerPicto}>

@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getEvents, getNextEvent } from "../../../api/getEvents";
 import EventCard from "./EventCard";
 import BigEventCard from "./BigEventCard";
+import Animated, {FadeInDown} from 'react-native-reanimated';
+
 
 type RootStackParamList = {
     EventsList: undefined;
@@ -57,7 +59,9 @@ function EventsList({ route, navigation }: Props) {
             )}
 
             {/* Soon events */}
-            <View style={styles.wrapperLine}>
+            <Animated.View
+                entering={FadeInDown.delay(300)}
+                style={styles.wrapperLine}>
                 <Text style={styles.title}>Les prochains évènements</Text>
                 <FlatList
                     horizontal
@@ -66,10 +70,10 @@ function EventsList({ route, navigation }: Props) {
                         <EventCard data={item} />
                     }
                 />
-            </View>
+            </Animated.View>
 
             {/* Next week events */}
-            <View style={styles.wrapperLine}>
+            <Animated.View entering={FadeInDown.delay(500)} style={styles.wrapperLine}>
                 <Text style={styles.title}>Pour plus tards...</Text>
                 <FlatList
                     horizontal
@@ -78,7 +82,7 @@ function EventsList({ route, navigation }: Props) {
                         <EventCard data={item} />
                     }
                 />
-            </View>
+            </Animated.View>
         </ScrollView>
     );
 }
