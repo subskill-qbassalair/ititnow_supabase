@@ -1,15 +1,15 @@
 // @ts-ignore
 import { MAPBOX_ACCESS_TOKEN } from '@env';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text } from 'react-native';
+import {StyleSheet, View, Image, Pressable} from 'react-native';
 import Mapbox, {Camera, MapView, MarkerView} from '@rnmapbox/maps';
 import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
 import {DEFAULT_CENTER_COORDINATE, SF_OFFICE_COORDINATE} from "../../utils";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
-import imagePins from '../../assets/pin.png';
 import {useDispatch,} from "react-redux";
 import {setLatitude, setLongitude} from "../../redux/slices/filters";
+const imagePins = require('../../assets/pinblack.png');
 
 const CustomMap = () => {
     const navigation = useNavigation()
@@ -33,6 +33,7 @@ const CustomMap = () => {
     }, []);
 
 
+    // @ts-ignore
     let view = <View style={styles.page}>
         <View style={styles.container}>
             <MapView
@@ -56,8 +57,25 @@ const CustomMap = () => {
                     coordinate={SF_OFFICE_COORDINATE}
                     allowOverlap
                 >
-                    {/*<Mapbox.Images source={imagePins} style={styles.markerBlue}/>*/}
-                    <View style={[styles.marker, styles.markerBlue]} />
+                    <Pressable
+                        style={{
+                            width: 24,
+                            height: 24,
+                            alignItems: 'center',
+                            justifyContent: 'space-around',
+                        }}
+                        onPress={() => console.log('pressing the marker view')}>
+                        <Image
+                            style={{
+                                width: 33,
+                                height: 33,
+                                marginVertical: 8,
+                            }}
+                            resizeMode="contain"
+                            source={imagePins}
+                        />
+                    </Pressable>
+
 
                 </MarkerView>
 
