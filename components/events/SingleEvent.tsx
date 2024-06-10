@@ -9,7 +9,7 @@ import {convertDate} from "../../utils";
 import {RouteProp} from "@react-navigation/native";
 import {RootStackParamList} from "../../navigation/RootNavigation";
 import Animated, {FadeIn} from 'react-native-reanimated';
-const image = {uri: "https://reactjs.org/logo-og.png"};
+
 
 type DetailEventRouteProp = RouteProp<RootStackParamList, 'SingleEvent'>
 
@@ -21,6 +21,7 @@ type Props = {
 function SingleEvent({route, navigation}: Props) {
     const data = route.params.event
 
+
     return (
         <ScrollView >
             <Back navigation={navigation}/>
@@ -28,7 +29,7 @@ function SingleEvent({route, navigation}: Props) {
             >
                 <Animated.Image
                     sharedTransitionTag={data.id}
-                    source={image}
+                    source={{uri:data.image}}
                     resizeMode="cover"
                     style={styles.image}
                 />

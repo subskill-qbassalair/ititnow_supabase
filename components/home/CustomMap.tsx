@@ -5,7 +5,7 @@ import {StyleSheet, View, Image, Pressable} from 'react-native';
 import Mapbox, {Camera, MapView, MarkerView} from '@rnmapbox/maps';
 import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
-import {DEFAULT_CENTER_COORDINATE, SF_OFFICE_COORDINATE} from "../../utils";
+import { SF_OFFICE_COORDINATE } from "../../utils";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 import {useDispatch,} from "react-redux";
 import {setLatitude, setLongitude} from "../../redux/slices/filters";

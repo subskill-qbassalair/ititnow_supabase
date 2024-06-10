@@ -8,9 +8,6 @@ import {useNavigation} from "@react-navigation/native";
 import {RootStackParamList} from "../../../navigation/RootNavigation";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
-const image = {uri: "https://reactjs.org/logo-og.png"};
-
-
 function BigEventCard({data}: any) {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     return (
@@ -25,7 +22,7 @@ function BigEventCard({data}: any) {
                 style={[styles.container,  globalStyles.shadow]} >
                 {data ? (
                     <>
-                        <Animated.Image source={image} resizeMode="cover" style={styles.image} />
+                        <Animated.Image source={{uri:data.image}} resizeMode="cover" style={styles.image} />
                         <View style={styles.overlay}></View>
                         <View style={styles.cardInner}>
                             <Text style={[styles.text, styles.title]} >{data.title}</Text>

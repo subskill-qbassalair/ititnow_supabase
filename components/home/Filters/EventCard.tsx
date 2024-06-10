@@ -19,7 +19,7 @@ export type Event = {
     startDate: string;
     description: string;
     endDate: string;
-    imageUri: string;
+    image: string;
 };
 
 type Props = {
@@ -27,7 +27,9 @@ type Props = {
 }
 
 function EventCard({data}: Props) {
+    console.log(data.image)
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    // @ts-ignore
     return (
         <Pressable
             key={data.id}
@@ -37,18 +39,18 @@ function EventCard({data}: Props) {
             <View style={[styles.container,  globalStyles.shadow]} >
                 <Animated.Image
                     sharedTransitionTag={data.id}
-                    source={image}
+                    source={{uri:data.image}}
                     resizeMode="cover"
-                    style={styles.image}
+                    style={styles.imageStyle}
                 />
-                    <View style={styles.overlay}></View>
-                    <View style={styles.cardInner}>
-                        <Text style={[styles.text, styles.title]} >{data.title}</Text>
-                        <View style={{display: 'flex', flexDirection:'row'}}>
-                            <View style={styles.bubble}><Text style={[styles.text, styles.location]} >{data.location}</Text></View>
-                            <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.startDate)}</Text></View>
-                        </View>
+                <View style={styles.overlay}></View>
+                <View style={styles.cardInner}>
+                    <Text style={[styles.text, styles.title]} >{data.title}</Text>
+                    <View style={{display: 'flex', flexDirection:'row'}}>
+                        <View style={styles.bubble}><Text style={[styles.text, styles.location]} >{data.location}</Text></View>
+                        <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.startDate)}</Text></View>
                     </View>
+                </View>
             </View>
         </Pressable>
     );
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
     },
-    image: {
+    imageStyle: {
         borderRadius: 8,
         width: 200,
         height: 200,
