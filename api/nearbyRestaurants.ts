@@ -2,13 +2,13 @@ import axios from 'axios';
 // @ts-ignore
 import { GOOGLE_PLACES_API_KEY } from "@env";
 
-// interface QueryKey {
-//     distance: number;
-//     price: number;
-//     cuisineType: string;
-//     latitude: number;
-//     longitude: number;
-// }
+interface QueryKey {
+    distance: number;
+    price: number;
+    cuisineType: string;
+    latitude: number;
+    longitude: number;
+}
 
 interface Restaurant {
     rating: number;
@@ -19,14 +19,14 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
 
     const [key, { distance, price, cuisineType, latitude, longitude }] = queryKey;
 
-    const lat = 37.7749
-    const long = -122.4194
+    // const lat = 37.7749
+    // const long = -122.4194
 
     try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
             params: {
                 // location: `${latitude},${longitude}`,
-                location: `${lat},${long}`,
+                location: `${latitude},${longitude}`,
                 radius: distance,
                 type: 'restaurant',
                 keyword: "pizza",

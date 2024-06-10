@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     distance: 750,
     priceLevel: 2,
-    cuisineType: 'Pizza'
+    cuisineType: 'Pizza',
+    latitude: 48.867503,
+    longitude: 2.363811
 }
 
 export const filters = createSlice({
@@ -18,10 +20,16 @@ export const filters = createSlice({
         },
         setCuisineType: (state, action) => {
             state.cuisineType = action.payload
+        },
+        setLatitude: (state, action) => {
+            state.latitude = action.payload
+        },
+        setLongitude: (state, action) => {
+            state.longitude = action.payload
         }
     }
 })
 
-export const { setDistance, setPriceLevel, setCuisineType } = filters.actions
+export const { setDistance, setPriceLevel, setCuisineType, setLongitude, setLatitude } = filters.actions
 
 export default filters.reducer

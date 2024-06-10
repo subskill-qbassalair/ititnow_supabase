@@ -8,9 +8,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import {convertDate} from "../../utils";
 import {RouteProp} from "@react-navigation/native";
 import {RootStackParamList} from "../../navigation/RootNavigation";
-import Animated, {FadeIn, FadeInDown} from 'react-native-reanimated';
-
-
+import Animated, {FadeIn} from 'react-native-reanimated';
 const image = {uri: "https://reactjs.org/logo-og.png"};
 
 type DetailEventRouteProp = RouteProp<RootStackParamList, 'SingleEvent'>
@@ -19,8 +17,6 @@ type Props = {
     route: DetailEventRouteProp;
     navigation: any;
 };
-
-
 
 function SingleEvent({route, navigation}: Props) {
     const data = route.params.event
@@ -68,8 +64,6 @@ function SingleEvent({route, navigation}: Props) {
                 <Text style={{fontWeight: 'bold', fontSize: 28,textAlign: 'center', paddingVertical:30}}>Le {convertDate(data.startDate)}</Text>
                 <Text>{data.description}</Text>
             </View>
-
-
         </ScrollView>
     );
 }
@@ -120,5 +114,3 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
     }
 })
-
-

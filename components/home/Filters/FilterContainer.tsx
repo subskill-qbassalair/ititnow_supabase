@@ -20,11 +20,11 @@ function FilterContainer() {
     const topAnim = useRef(new Animated.Value(1000)).current
     const navigation = useNavigation<ResultNavigationProp>()
     const [status, setStatus] = useState<string | null>(null)
-    const [latitude, setLatitude] = useState<number | null>(null)
-    const [longitude, setLongitude] = useState<number | null>(null)
     const distance = useSelector(state => state.filters.distance)
     const price = useSelector(state => state.filters.priceLevel)
     const cuisineType = useSelector(state => state.filters.cuisineType)
+    const latitude = useSelector(state => state.filters.latitude)
+    const longitude = useSelector(state => state.filters.longitude)
 
 
 

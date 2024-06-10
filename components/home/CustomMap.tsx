@@ -1,22 +1,23 @@
 // @ts-ignore
 import { MAPBOX_ACCESS_TOKEN } from '@env';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, } from 'react-native';
-import Mapbox from '@rnmapbox/maps';
+import {StyleSheet, View, Text } from 'react-native';
+import Mapbox, {Camera, MapView, MarkerView} from '@rnmapbox/maps';
 import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
-import {DEFAULT_CENTER_COORDINATE} from "../../utils";
-import pins from "../../assets/pin.png"
+import {DEFAULT_CENTER_COORDINATE, SF_OFFICE_COORDINATE} from "../../utils";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
+import imagePins from '../../assets/pin.png';
+import {useDispatch,} from "react-redux";
+import {setLatitude, setLongitude} from "../../redux/slices/filters";
 
 const CustomMap = () => {
     const navigation = useNavigation()
     const [status, setStatus] = useState<string | null>(null)
-    const [latitude, setLatitude] = useState<number | null>(null)
-    const [longitude, setLongitude] = useState<number | null>(null)
     const [isEnabled, setIsEnabled] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const mapref = React.useRef(null)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
@@ -26,15 +27,15 @@ const CustomMap = () => {
                 return;
             }
             let location = await Location.getCurrentPositionAsync({});
-            setLatitude(location.coords.latitude);
-            setLongitude(location.coords.longitude);
+            dispatch(setLatitude(location.coords.latitude))
+            dispatch(setLongitude(location.coords.longitude))
         })();
     }, []);
 
 
     let view = <View style={styles.page}>
         <View style={styles.container}>
-            <Mapbox.MapView
+            <MapView
                 style={styles.map}
                 styleURL="mapbox://styles/alimotor/clw6h3i3z01as01pfasmzeech"
                 projection={"mercator"}
@@ -43,13 +44,24 @@ const CustomMap = () => {
                 scaleBarEnabled={false}
                 ref={mapref}
             >
-                <Mapbox.Camera followZoomLevel={14} followUserLocation/>
+                <Camera
+                    followZoomLevel={14}
+                    followUserLocation
+                />
                 <Mapbox.UserLocation visible={true} animated={true}/>
-                <Mapbox.Images images={{ pins }} />
                 {/*Markers*/}
-                <Mapbox.MarkerView id={'marker-1'} coordinate={DEFAULT_CENTER_COORDINATE}/>
+                <MarkerView
+                    key={'marker-blue'}
+                    id={'marker-blue'}
+                    coordinate={SF_OFFICE_COORDINATE}
+                    allowOverlap
+                >
+                    {/*<Mapbox.Images source={imagePins} style={styles.markerBlue}/>*/}
+                    <View style={[styles.marker, styles.markerBlue]} />
 
-            </Mapbox.MapView>
+                </MarkerView>
+
+            </MapView>
         </View>
     </View>;
 
@@ -94,22 +106,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     matchParent: { flex: 1 },
-    annotationContainer: {
-        width: 30,
-        height: 30,
+    markerBlue: {
+        backgroundColor: 'blue',
+        width: 45,
+        height: 45,
+    },
+    marker: {
+        width: 35,
+        height: 35,
+        borderRadius: 9999,
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
-        borderRadius: 50,
     },
-    annotationFill: {
-        width: 30,
-        height: 30,
-        borderRadius: 50,
-        backgroundColor: 'blue',
-        transform: [{ scale: 0.6 }],
-    },
-
-
-
 });
