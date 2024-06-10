@@ -42,6 +42,7 @@ function Input({placeHolder, type, iconLeft, iconRight, onChangeText, value  }) 
                 onChangeText={listenInput}
                 value={value}
                 placeholder={placeHolder}
+                placeholderTextColor="grey"
                 secureTextEntry={type === "password" && secureTextEntry}
             />
             <Pressable onPress={handleIconFeature} >
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'PoppinsRegular',
         width: '76%',
-        marginLeft: 'auto'
+        marginLeft: 'auto',
+        color: '#000',
     }
 })

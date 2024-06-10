@@ -68,7 +68,7 @@ function RootNavigation() {
                     />
                     <Stack.Screen
                         name="SingleEvent" component={SingleEvent}
-                        options={{headerShown: false, animation: 'slide_from_bottom'}}
+                        options={{headerShown: false, animation: 'slide_from_right'}}
 
                     />
                 </>

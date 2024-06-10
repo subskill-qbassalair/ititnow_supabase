@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, ImageBackground, Pressable} from "react-native";
+import {View, Text, StyleSheet, Pressable} from "react-native";
 import globalStyle from "../../../globalStyle";
 import { eventCardDate } from "../../../utils";
 import {globalStyles} from "../../../style";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../../navigation/RootNavigation";
-import Animated, {FadeInDown} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 
 const image = {uri: "https://reactjs.org/logo-og.png"};
@@ -34,10 +34,13 @@ function EventCard({data}: Props) {
             onPress={() =>  navigation.navigate('SingleEvent', {
                 event: data
             }) }>
-            <Animated.View
-                sharedTransitionTag={data.id}
-                style={[styles.container,  globalStyles.shadow]} >
-                <ImageBackground source={image} resizeMode="cover" style={styles.image} >
+            <View style={[styles.container,  globalStyles.shadow]} >
+                <Animated.Image
+                    sharedTransitionTag={data.id}
+                    source={image}
+                    resizeMode="cover"
+                    style={styles.image}
+                />
                     <View style={styles.overlay}></View>
                     <View style={styles.cardInner}>
                         <Text style={[styles.text, styles.title]} >{data.title}</Text>
@@ -46,8 +49,7 @@ function EventCard({data}: Props) {
                             <View style={styles.bubble}><Text style={[styles.text, styles.date, globalStyle.primaryBackground]} >{eventCardDate(data.startDate)}</Text></View>
                         </View>
                     </View>
-                </ImageBackground>
-            </Animated.View>
+            </View>
         </Pressable>
     );
 }
@@ -63,6 +65,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         overflow: 'hidden',
         backgroundColor: "black",
+        position: 'relative',
 
     },
     overlay: {
@@ -70,9 +73,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
     },
     image: {
-        flex: 1,
-        justifyContent: "center",
         borderRadius: 8,
+        width: 200,
+        height: 200,
+        position: 'absolute',
     },
     cardInner: {
         padding: 10,

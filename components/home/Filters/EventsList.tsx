@@ -10,6 +10,7 @@ import BigEventCard from "./BigEventCard";
 import Animated, {FadeInDown} from 'react-native-reanimated';
 
 
+
 type RootStackParamList = {
     EventsList: undefined;
 };
@@ -35,15 +36,20 @@ type Props = {
 };
 
 function EventsList({ route, navigation }: Props) {
-    const query = useQuery({
-        queryKey: ['events'],
-        queryFn: getEvents
-    });
 
     const nextEvent = useQuery({
         queryKey: ['nextEvent'],
-        queryFn: getNextEvent
+        queryFn: getNextEvent,
     });
+
+
+    const query = useQuery({
+        queryKey: ['events'],
+        queryFn: getEvents,
+    });
+
+
+
 
     return (
         <ScrollView style={styles.container}>
@@ -53,36 +59,41 @@ function EventsList({ route, navigation }: Props) {
             {nextEvent.isLoading ? (
                 <Text>Loading...</Text>
             ) : nextEvent.isError ? (
-                <Text>Error loading next event</Text>
+                <Text>Error loading events list</Text>
             ) : (
+                <>
                 <BigEventCard data={nextEvent.data} />
+                    {/* Soon events */}
+                    <Animated.View
+                        entering={FadeInDown.delay(300)}
+                        style={styles.wrapperLine}>
+                        <Text style={styles.title}>Les prochains évènements</Text>
+                        <FlatList
+                            refreshing
+                            horizontal
+                            data={query.data}
+                            initialNumToRender={7}
+                            renderItem={({ item }) =>
+                                <EventCard data={item} />
+                            }
+                        />
+                    </Animated.View>
+
+                    {/* Next week events */}
+                    {/*<Animated.View*/}
+                    {/*    entering={FadeInDown.delay(500)}*/}
+                    {/*    style={styles.wrapperLine}>*/}
+                    {/*    <Text style={styles.title}>Pour plus tards...</Text>*/}
+                    {/*    <FlatList*/}
+                    {/*        horizontal*/}
+                    {/*        data={query.data}*/}
+                    {/*        renderItem={({ item }) =>*/}
+                    {/*            <EventCard data={item} />*/}
+                    {/*        }*/}
+                    {/*    />*/}
+                    {/*</Animated.View>*/}
+                </>
             )}
-
-            {/* Soon events */}
-            <Animated.View
-                entering={FadeInDown.delay(300)}
-                style={styles.wrapperLine}>
-                <Text style={styles.title}>Les prochains évènements</Text>
-                <FlatList
-                    horizontal
-                    data={query.data}
-                    renderItem={({ item }) =>
-                        <EventCard data={item} />
-                    }
-                />
-            </Animated.View>
-
-            {/* Next week events */}
-            <Animated.View entering={FadeInDown.delay(500)} style={styles.wrapperLine}>
-                <Text style={styles.title}>Pour plus tards...</Text>
-                <FlatList
-                    horizontal
-                    data={query.data}
-                    renderItem={({ item }) =>
-                        <EventCard data={item} />
-                    }
-                />
-            </Animated.View>
         </ScrollView>
     );
 }

@@ -8,7 +8,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import {convertDate} from "../../utils";
 import {RouteProp} from "@react-navigation/native";
 import {RootStackParamList} from "../../navigation/RootNavigation";
-import Animated from 'react-native-reanimated';
+import Animated, {FadeIn, FadeInDown} from 'react-native-reanimated';
 
 
 const image = {uri: "https://reactjs.org/logo-og.png"};
@@ -28,13 +28,20 @@ function SingleEvent({route, navigation}: Props) {
     return (
         <ScrollView >
             <Back navigation={navigation}/>
-            <Animated.View
-                sharedTransitionTag={data.id}
+            <View
             >
-                <ImageBackground source={image} resizeMode="cover" style={styles.image} >
-                    <Text style={styles.title}>{data.title}</Text>
-                </ImageBackground>
-            </Animated.View>
+                <Animated.Image
+                    sharedTransitionTag={data.id}
+                    source={image}
+                    resizeMode="cover"
+                    style={styles.image}
+                />
+
+                    <Animated.Text
+                        entering={FadeIn.delay(600)}
+                        style={styles.title}>{data.title}</Animated.Text>
+
+            </View>
 
             <View style={{backgroundColor: 'white', paddingHorizontal:15, borderRadius: 8, width:'92%', marginHorizontal: 'auto', marginTop: 15 }} >
                 <View style={styles.containerPicto}>

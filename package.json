@@ -11,11 +11,12 @@
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-mapbox-gl/maps": "^8.6.0-beta.0",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@react-navigation/stack": "^6.3.29",
     "@reduxjs/toolkit": "^2.2.5",
-    "@rnmapbox/maps": "^10.1.23",
+    "@rnmapbox/maps": "^10.1.24",
     "@supabase/supabase-js": "^2.43.1",
     "@tanstack/react-query": "^5.36.0",
     "@tanstack/react-query-devtools": "^5.36.0",

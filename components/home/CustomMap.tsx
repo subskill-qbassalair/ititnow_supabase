@@ -6,6 +6,7 @@ import Mapbox from '@rnmapbox/maps';
 import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
 import {DEFAULT_CENTER_COORDINATE} from "../../utils";
+import pins from "../../assets/pin.png"
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 const CustomMap = () => {
@@ -44,8 +45,10 @@ const CustomMap = () => {
             >
                 <Mapbox.Camera followZoomLevel={14} followUserLocation/>
                 <Mapbox.UserLocation visible={true} animated={true}/>
+                <Mapbox.Images images={{ pins }} />
                 {/*Markers*/}
                 <Mapbox.MarkerView id={'marker-1'} coordinate={DEFAULT_CENTER_COORDINATE}/>
+
             </Mapbox.MapView>
         </View>
     </View>;

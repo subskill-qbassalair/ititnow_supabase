@@ -3,7 +3,7 @@ import {StyleSheet, TouchableOpacity} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
 
-function Back({navigation}) {
+function Back({navigation}: any) {
     return (
         <TouchableOpacity
             onPress={() => navigation.goBack()}
