@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
 export const DEFAULT_CENTER_COORDINATE = [-77.036086, 38.910233];
-export const SF_OFFICE_COORDINATE = [2.363811,48.867503];
+export const SF_OFFICE_COORDINATE = [-122.408452, 37.783308];
 
 
 export  const convertDate = (date: string) => {

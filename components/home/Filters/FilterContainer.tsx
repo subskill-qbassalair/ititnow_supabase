@@ -5,9 +5,10 @@ import getNearbyRestaurants from "../../../api/nearbyRestaurants";
 import {useNavigation} from "@react-navigation/native";
 import {globalStyles} from "../../../style";
 import ModalFilter from "./ModalFilter";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import RestaurantList from "../../result/RestaurantList";
 import {AntDesign} from "@expo/vector-icons";
+import {setRestaurants} from "../../../redux/slices/restaurants";
 
 type ResultNavigationProp = {
     Result: {
@@ -16,6 +17,7 @@ type ResultNavigationProp = {
 }
 
 function FilterContainer() {
+    const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(false)
     const [modal, setModal] = useState('')
     const [isEnabled, setIsEnabled] = useState(false)
@@ -41,7 +43,7 @@ function FilterContainer() {
         if(data && data.length > 0){
             setIsLoading(false)
             setHideMenu(true)
-            console.log(data[0].geometry.location)
+            dispatch(setRestaurants(data))
             setIsEnabled(false)
         } else {
             setIsEnabled(false)
@@ -84,16 +86,10 @@ function FilterContainer() {
 
     const handleRestaurantList = () => {
         setHideMenu(false)
-        // Animated.timing(menuAnim, {
-        //     toValue: 1000,
-        //     duration: 300,
-        //     useNativeDriver: true,
-        // }).start();
-        //TODO: empty data
+        dispatch(setRestaurants([]))
     }
 
     const handleAnimations = () => {
-        console.log("hideMenu")
         if(hideMenu){
             Animated.timing(restauListAnim, {
                 toValue: 0,
@@ -213,7 +209,7 @@ const styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'column',
         zIndex: 1000,
-        height: '35%',
+        height: '37%',
         borderRadius: 8,
     },
     backArrow: {

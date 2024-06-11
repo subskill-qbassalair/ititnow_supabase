@@ -5,9 +5,8 @@ import {StyleSheet, View, Image, Pressable} from 'react-native';
 import Mapbox, {Camera, MapView, MarkerView} from '@rnmapbox/maps';
 import * as Location from "expo-location";
 import {useNavigation} from "@react-navigation/native";
-import { SF_OFFICE_COORDINATE } from "../../utils";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
-import {useDispatch,} from "react-redux";
+import {useDispatch, useSelector,} from "react-redux";
 import {setLatitude, setLongitude} from "../../redux/slices/filters";
 const imagePins = require('../../assets/pinblack.png');
 
@@ -18,7 +17,7 @@ const CustomMap = () => {
     const [isLoading, setIsLoading] = useState(false)
     const mapref = React.useRef(null)
     const dispatch = useDispatch();
-
+    const restaurant = useSelector(state => state.restaurants.restaurants)
 
     useEffect(() => {
         (async () => {
@@ -30,6 +29,7 @@ const CustomMap = () => {
             let location = await Location.getCurrentPositionAsync({});
             dispatch(setLatitude(location.coords.latitude))
             dispatch(setLongitude(location.coords.longitude))
+
         })();
     }, []);
 
@@ -47,36 +47,40 @@ const CustomMap = () => {
                 ref={mapref}
             >
                 <Camera
-                    followZoomLevel={14}
+                    followZoomLevel={13}
                     followUserLocation
                 />
                 <Mapbox.UserLocation visible={true} animated={true}/>
                 {/*Markers*/}
-                <MarkerView
-                    key={'marker-blue'}
-                    id={'marker-blue'}
-                    coordinate={SF_OFFICE_COORDINATE}
-                    allowOverlap
-                >
-                    <Pressable
-                        style={{
-                            width: 24,
-                            height: 24,
-                            alignItems: 'center',
-                            justifyContent: 'space-around',
-                        }}
-                        onPress={() => console.log('pressing the marker view')}>
-                        <Image
+                {restaurant.map((item) => {
+                    return   <MarkerView
+                        key={item.name}
+                        id={item.id}
+                        coordinate={[item.geometry.location.lng, item.geometry.location.lat]}
+                        allowOverlap
+                    >
+                        <Pressable
                             style={{
-                                width: 33,
-                                height: 33,
-                                marginVertical: 8,
+                                width: 24,
+                                height: 24,
+                                alignItems: 'center',
+                                justifyContent: 'space-around',
                             }}
-                            resizeMode="contain"
-                            source={imagePins}
-                        />
-                    </Pressable>
-                </MarkerView>
+                            onPress={() => console.log('pressing the marker view')}>
+                            <Image
+                                style={{
+                                    width: 33,
+                                    height: 33,
+                                    marginVertical: 8,
+                                }}
+                                resizeMode="contain"
+                                source={imagePins}
+                            />
+                        </Pressable>
+                    </MarkerView>
+
+
+                })}
             </MapView>
         </View>
     </View>;
@@ -122,15 +126,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     matchParent: { flex: 1 },
-    markerBlue: {
-        backgroundColor: 'blue',
-        width: 45,
-        height: 45,
-    },
     marker: {
         width: 35,
         height: 35,
-        borderRadius: 9999,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',

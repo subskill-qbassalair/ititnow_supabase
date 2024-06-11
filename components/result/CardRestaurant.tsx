@@ -11,8 +11,10 @@ function CardRestaurant(data: any) {
             />
             <View style={styles.text}>
             <Text style={styles.title}>{data.data.name}</Text>
-                <Text style={styles.restauInfos} >Note : {data.data.rating} / 5 ( {data.data.user_ratings_total} avis) </Text>
-                <Text style={[styles.restauLocation, {marginTop:5}]} >{data.data.vicinity}</Text>
+                <View>
+                    <Text style={styles.restauInfos} >Note : {data.data.rating} / 5 ( {data.data.user_ratings_total} avis) </Text>
+                    <Text style={[styles.restauLocation, {marginTop:5}]} >{data.data.vicinity}</Text>
+                </View>
                 <Pressable>
                     <Text style={styles.cta}> Ouvrir dans mon GPS </Text>
                 </Pressable>
@@ -38,6 +40,9 @@ const styles = StyleSheet.create({
     },
     text: {
         padding: 8,
+        flex:1,
+        display: 'flex',
+        justifyContent: 'space-between',
     },
     title: {
         fontSize: 16,

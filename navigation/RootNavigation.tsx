@@ -5,7 +5,6 @@ import {Session} from "@supabase/supabase-js";
 import {supabase} from "../lib/supabase";
 import Home from "../components/home/Home";
 import Menu from "../components/layout/header/Menu";
-import Result from "../components/result/Result";
 import Layout from "../components/auth/Layout";
 import EventsList from "../components/home/Filters/EventsList";
 import SingleEvent from "../components/events/SingleEvent";
@@ -56,10 +55,6 @@ function RootNavigation() {
                     />
                     <Stack.Screen
                         name="Menu" component={Menu}
-                        options={{headerShown: false, animation: 'slide_from_bottom'}}
-                    />
-                    <Stack.Screen
-                        name="Result" component={Result}
                         options={{headerShown: false, animation: 'slide_from_bottom'}}
                     />
                     <Stack.Screen
