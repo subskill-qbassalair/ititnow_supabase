@@ -7,6 +7,8 @@ import {globalStyles} from "../../../style";
 import ModalFilter from "./ModalFilter";
 import {useSelector} from "react-redux";
 import RestaurantList from "../../result/RestaurantList";
+import {AntDesign} from "@expo/vector-icons";
+
 
 type ResultNavigationProp = {
     Result: {
@@ -143,7 +145,7 @@ function FilterContainer() {
                             width: '100%',
                         }}
                     >
-                        <Text>Retour</Text>
+                        <View style={styles.backArrow} ><AntDesign name="arrowleft" size={24} color="black" /></View>
                     </Pressable>
                     <RestaurantList restaurant={data} />
                 </View>
@@ -169,6 +171,17 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         height: '35%',
         borderRadius: 8,
+    },
+    backArrow: {
+        backgroundColor: 'white',
+        borderRadius: 50,
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        top : -30,
+        left: 0,
     },
     containerMain: {
         position: 'absolute',
