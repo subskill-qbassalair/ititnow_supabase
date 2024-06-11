@@ -9,7 +9,6 @@ import {useSelector} from "react-redux";
 import RestaurantList from "../../result/RestaurantList";
 import {AntDesign} from "@expo/vector-icons";
 
-
 type ResultNavigationProp = {
     Result: {
         restaurants: any[]
@@ -22,6 +21,8 @@ function FilterContainer() {
     const [isEnabled, setIsEnabled] = useState(false)
     const [hideMenu, setHideMenu] = useState(false)
     const topAnim = useRef(new Animated.Value(1000)).current
+    const menuAnim = useRef(new Animated.Value(0)).current
+    const restauListAnim = useRef(new Animated.Value(1000)).current
     const navigation = useNavigation<ResultNavigationProp>()
     const distance = useSelector(state => state.filters.distance)
     const price = useSelector(state => state.filters.priceLevel)
@@ -40,9 +41,6 @@ function FilterContainer() {
         if(data && data.length > 0){
             setIsLoading(false)
             setHideMenu(true)
-            // navigation.navigate('Result', {
-            //     restaurants: data
-            // })
             console.log(data[0].geometry.location)
             setIsEnabled(false)
         } else {
@@ -84,72 +82,118 @@ function FilterContainer() {
         setIsLoading(true)
     }
 
+    const handleRestaurantList = () => {
+        setHideMenu(false)
+        // Animated.timing(menuAnim, {
+        //     toValue: 1000,
+        //     duration: 300,
+        //     useNativeDriver: true,
+        // }).start();
+        //TODO: empty data
+    }
+
+    const handleAnimations = () => {
+        console.log("hideMenu")
+        if(hideMenu){
+            Animated.timing(restauListAnim, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+
+            Animated.timing(menuAnim, {
+                toValue: 1000,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+
+
+        } else {
+            Animated.timing(restauListAnim, {
+                toValue: 1000,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+
+            Animated.timing(menuAnim, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        }
+    }
+
+    useEffect(() => {
+        handleAnimations()
+    }, [hideMenu]);
+
     const navigateEventsScreen = () => {
         navigation.navigate('EventsList')
     }
 
     return (
-
         <>
-            <Animated.View style={[ modal === 'moreFilters' ? styles.modalMoreFilters : styles.modal , globalStyles.shadow, { transform: [{translateY: topAnim}] }]}>
+            <Animated.View
+                style={[ modal === 'moreFilters' ? styles.modalMoreFilters : styles.modal , globalStyles.shadow, { transform: [{translateY: topAnim}] }]}>
                 <ModalFilter  modal={modal}  />
             </Animated.View>
-            {!hideMenu ? (
-                <View style={[styles.containerMain, globalStyles.shadow]} >
-                    <View style={styles.containerMainTop}>
-                        <TouchableOpacity
-                            style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
-                            onPress={ () => navigateEventsScreen() }
-                        >
-                            <Text style={{fontSize:14}}>Évènements</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
-                            onPress={ () => handleModal('moreFilters') }
-                        >
-                            <Text style={{fontSize:14}}>Plus de filtres</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.containerMiddle} >
-                        <TouchableOpacity
-                            style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
-                            onPress={ () => handleModal('budget') }
-                        >
-                            <Text style={{fontSize:16}}>Mon budget</Text>
-                        </TouchableOpacity>
-
-
-                        <TouchableOpacity
-                            style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
-                            onPress={ () => handleModal('distance') }
-                        >
-                            <Text style={{fontSize:16}}>Distance</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.containerBigCta} >
-                        { <TouchableOpacity
-                            style={[styles.btn, styles.bigCta, globalStyles.shadow]}
-                            onPress={() => handleFetch()}
-                        >
-                            <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>
-                        </TouchableOpacity> }
-                    </View>
-                </View>
-            ) : (
-                <View style={styles.containerRestaurant} >
-                    <Pressable
-                        onPress={() => setHideMenu(false)}
-                        style={{
-                            padding: 10,
-                            width: '100%',
-                        }}
+            {/*Filtres (menu)*/}
+            <Animated.View
+                style={[styles.containerMain, globalStyles.shadow,{transform: [{translateY: menuAnim}]} ]} >
+                <View style={styles.containerMainTop}>
+                    <TouchableOpacity
+                        style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
+                        onPress={ () => navigateEventsScreen() }
                     >
-                        <View style={styles.backArrow} ><AntDesign name="arrowleft" size={24} color="black" /></View>
-                    </Pressable>
-                    <RestaurantList restaurant={data} />
+                        <Text style={{fontSize:14}}>Évènements</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
+                        onPress={ () => handleModal('moreFilters') }
+                    >
+                        <Text style={{fontSize:14}}>Plus de filtres</Text>
+                    </TouchableOpacity>
                 </View>
-            ) }
+                <View style={styles.containerMiddle} >
+                    <TouchableOpacity
+                        style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
+                        onPress={ () => handleModal('budget') }
+                    >
+                        <Text style={{fontSize:16}}>Mon budget</Text>
+                    </TouchableOpacity>
+
+
+                    <TouchableOpacity
+                        style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
+                        onPress={ () => handleModal('distance') }
+                    >
+                        <Text style={{fontSize:16}}>Distance</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.containerBigCta} >
+                    { <TouchableOpacity
+                        style={[styles.btn, styles.bigCta, globalStyles.shadow]}
+                        onPress={() => handleFetch()}
+                    >
+                        <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>
+                    </TouchableOpacity> }
+                </View>
+            </Animated.View>
+            {/*Cartes restau*/}
+            <Animated.View
+                style={[styles.containerRestaurant,{transform: [{translateY: restauListAnim}]}]} >
+                <Pressable
+                    onPress={() =>handleRestaurantList()}
+                    style={{
+                        padding: 10,
+                        width: '100%',
+                    }}
+                >
+                    <View style={styles.backArrow} ><AntDesign name="arrowleft" size={24} color="black" /></View>
+                </Pressable>
+                <RestaurantList restaurant={data} />
+            </Animated.View>
         </>
     )
 }
@@ -258,6 +302,5 @@ const styles = StyleSheet.create({
         zIndex: 1,
         paddingHorizontal: 20,
         paddingVertical: "20%",
-    }
-
+    },
 })
