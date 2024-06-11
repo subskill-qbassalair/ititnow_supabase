@@ -33,11 +33,9 @@ function SingleEvent({route, navigation}: Props) {
                     resizeMode="cover"
                     style={styles.image}
                 />
-
                     <Animated.Text
                         entering={FadeIn.delay(600)}
                         style={styles.title}>{data.title}</Animated.Text>
-
             </View>
 
             <View style={{backgroundColor: 'white', paddingHorizontal:15, borderRadius: 8, width:'92%', marginHorizontal: 'auto', marginTop: 15 }} >
@@ -61,7 +59,7 @@ function SingleEvent({route, navigation}: Props) {
                 </View>
             </View>
 
-            <View style={{backgroundColor: 'white', paddingHorizontal:15, borderRadius: 8, width:'92%', marginHorizontal: 'auto', marginTop: 15 }} >
+            <View style={{backgroundColor: 'white', paddingHorizontal:15, paddingBottom:20, borderRadius: 8, width:'92%', marginHorizontal: 'auto', marginTop: 15 }} >
                 <Text style={{fontWeight: 'bold', fontSize: 28,textAlign: 'center', paddingVertical:30}}>Le {convertDate(data.startDate)}</Text>
                 <Text>{data.description}</Text>
             </View>

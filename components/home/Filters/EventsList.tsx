@@ -48,9 +48,6 @@ function EventsList({ route, navigation }: Props) {
         queryFn: getEvents,
     });
 
-
-
-
     return (
         <ScrollView style={styles.container}>
             <Back navigation={navigation} />
@@ -69,7 +66,6 @@ function EventsList({ route, navigation }: Props) {
                         style={styles.wrapperLine}>
                         <Text style={styles.title}>Les prochains évènements</Text>
                         <FlatList
-                            refreshing
                             horizontal
                             data={query.data}
                             initialNumToRender={7}

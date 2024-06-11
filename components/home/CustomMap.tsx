@@ -19,6 +19,7 @@ const CustomMap = () => {
     const mapref = React.useRef(null)
     const dispatch = useDispatch();
 
+
     useEffect(() => {
         (async () => {
             let { status } = await  Location.requestForegroundPermissionsAsync();
@@ -75,10 +76,7 @@ const CustomMap = () => {
                             source={imagePins}
                         />
                     </Pressable>
-
-
                 </MarkerView>
-
             </MapView>
         </View>
     </View>;

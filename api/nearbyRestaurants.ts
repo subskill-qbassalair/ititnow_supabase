@@ -13,8 +13,6 @@ interface QueryKey {
 interface Restaurant {
     rating: number;
 }
-
-
 const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
 
     const [key, { distance, price, cuisineType, latitude, longitude }] = queryKey;
@@ -25,11 +23,10 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
     try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
             params: {
-                // location: `${latitude},${longitude}`,
                 location: `${latitude},${longitude}`,
                 radius: distance,
                 type: 'restaurant',
-                keyword: "pizza",
+                keyword: "chicken",
                 key: GOOGLE_PLACES_API_KEY,
                 opennow: false,
                 price_level: price,
@@ -40,8 +37,17 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
         const filteredRestaurants = allRestaurants.filter((restaurant: Restaurant) =>
             restaurant.rating >= 4 );
 
+        const shuffleArray = (array: []) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        };
+        const shuffledRestaurants = shuffleArray(filteredRestaurants);
+        const selectedRestaurants = shuffledRestaurants.slice(0, 5);
 
-        return filteredRestaurants;
+        return selectedRestaurants;
     } catch (e) {
         console.log(e)
     }

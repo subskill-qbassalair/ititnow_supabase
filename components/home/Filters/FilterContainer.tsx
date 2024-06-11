@@ -1,11 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Animated, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useQuery} from "@tanstack/react-query";
 import getNearbyRestaurants from "../../../api/nearbyRestaurants";
 import {useNavigation} from "@react-navigation/native";
 import {globalStyles} from "../../../style";
 import ModalFilter from "./ModalFilter";
 import {useSelector} from "react-redux";
+import RestaurantList from "../../result/RestaurantList";
 
 type ResultNavigationProp = {
     Result: {
@@ -17,16 +18,14 @@ function FilterContainer() {
     const [isLoading, setIsLoading] = useState(false)
     const [modal, setModal] = useState('')
     const [isEnabled, setIsEnabled] = useState(false)
+    const [hideMenu, setHideMenu] = useState(false)
     const topAnim = useRef(new Animated.Value(1000)).current
     const navigation = useNavigation<ResultNavigationProp>()
-    const [status, setStatus] = useState<string | null>(null)
     const distance = useSelector(state => state.filters.distance)
     const price = useSelector(state => state.filters.priceLevel)
     const cuisineType = useSelector(state => state.filters.cuisineType)
     const latitude = useSelector(state => state.filters.latitude)
     const longitude = useSelector(state => state.filters.longitude)
-
-
 
     const {data} = useQuery({
         queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude}],
@@ -34,12 +33,15 @@ function FilterContainer() {
         enabled: isEnabled,
     })
 
+
     useEffect(() => {
         if(data && data.length > 0){
             setIsLoading(false)
-            navigation.navigate('Result', {
-                restaurants: data
-            })
+            setHideMenu(true)
+            // navigation.navigate('Result', {
+            //     restaurants: data
+            // })
+            console.log(data[0].geometry.location)
             setIsEnabled(false)
         } else {
             setIsEnabled(false)
@@ -85,55 +87,69 @@ function FilterContainer() {
     }
 
     return (
+
         <>
             <Animated.View style={[ modal === 'moreFilters' ? styles.modalMoreFilters : styles.modal , globalStyles.shadow, { transform: [{translateY: topAnim}] }]}>
                 <ModalFilter  modal={modal}  />
             </Animated.View>
-            <View style={[styles.containerMain, globalStyles.shadow]} >
-                <View style={styles.containerMainTop}>
+            {!hideMenu ? (
+                <View style={[styles.containerMain, globalStyles.shadow]} >
+                    <View style={styles.containerMainTop}>
+                        <TouchableOpacity
+                            style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
+                            onPress={ () => navigateEventsScreen() }
+                        >
+                            <Text style={{fontSize:14}}>Évènements</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
-                        onPress={ () => navigateEventsScreen() }
-                    >
-                        <Text style={{fontSize:14}}>Évènements</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
+                            onPress={ () => handleModal('moreFilters') }
+                        >
+                            <Text style={{fontSize:14}}>Plus de filtres</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.containerMiddle} >
+                        <TouchableOpacity
+                            style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
+                            onPress={ () => handleModal('budget') }
+                        >
+                            <Text style={{fontSize:16}}>Mon budget</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
-                        onPress={ () => handleModal('moreFilters') }
-                    >
-                        <Text style={{fontSize:14}}>Plus de filtres</Text>
-                    </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
+                            onPress={ () => handleModal('distance') }
+                        >
+                            <Text style={{fontSize:16}}>Distance</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.containerBigCta} >
+                        { <TouchableOpacity
+                            style={[styles.btn, styles.bigCta, globalStyles.shadow]}
+                            onPress={() => handleFetch()}
+                        >
+                            <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>
+                        </TouchableOpacity> }
+                    </View>
                 </View>
-                <View style={styles.containerMiddle} >
-                    <TouchableOpacity
-                        style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
-                        onPress={ () => handleModal('budget') }
+            ) : (
+                <View style={styles.containerRestaurant} >
+                    <Pressable
+                        onPress={() => setHideMenu(false)}
+                        style={{
+                            padding: 10,
+                            width: '100%',
+                        }}
                     >
-                        <Text style={{fontSize:16}}>Mon budget</Text>
-                    </TouchableOpacity>
-
-
-                    <TouchableOpacity
-                        style={[styles.btnFilter, styles.btn, globalStyles.shadow]}
-                        onPress={ () => handleModal('distance') }
-                    >
-                        <Text style={{fontSize:16}}>Distance</Text>
-                    </TouchableOpacity>
+                        <Text>Retour</Text>
+                    </Pressable>
+                    <RestaurantList restaurant={data} />
                 </View>
-                <View style={styles.containerBigCta} >
-                    { <TouchableOpacity
-                        style={[styles.btn, styles.bigCta, globalStyles.shadow]}
-                        onPress={() => handleFetch()}
-                    >
-                        <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>
-                        {/*<Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >Trouve moi un restau</Text>*/}
-                    </TouchableOpacity> }
-                </View>
-            </View>
+            ) }
         </>
-    );
+    )
 }
 
 export default FilterContainer;
@@ -143,6 +159,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+    containerRestaurant: {
+        position: 'absolute',
+        bottom: 50,
+        width: '100%',
+        padding: 10,
+        flexDirection: 'column',
+        zIndex: 1000,
+        height: '35%',
+        borderRadius: 8,
     },
     containerMain: {
         position: 'absolute',
