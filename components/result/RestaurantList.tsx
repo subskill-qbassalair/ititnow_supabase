@@ -6,6 +6,9 @@ function RestaurantList({restaurant}:any) {
     return (
         <View style={styles.container}  >
         <FlatList
+            removeClippedSubviews
+            decelerationRate={0}
+            snapToInterval={275}
             horizontal
             data={restaurant}
             renderItem={({item}) =>

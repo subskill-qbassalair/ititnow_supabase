@@ -4,7 +4,9 @@ import {Text, StyleSheet, View, Image, Pressable} from 'react-native';
 function CardRestaurant(data: any) {
     return (
         <View style={styles.container}>
+            {data.data.opening_hours ? (
             <Text style={[styles.bubble, data.data.opening_hours.open_now ? null : styles.closed ]} >{data.data.opening_hours.open_now ? 'Ouvert' : 'Fermé'}</Text>
+            ) : null}
             <Image
                 style={styles.image}
                 source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${data.data.photos[0].photo_reference}&key=AIzaSyA3I7cXhLM51hRryr_l_70JMJqKuviH4do`}}

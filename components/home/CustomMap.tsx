@@ -1,97 +1,146 @@
 // @ts-ignore
 import { MAPBOX_ACCESS_TOKEN } from '@env';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Image, Pressable} from 'react-native';
-import Mapbox, {Camera, MapView, MarkerView} from '@rnmapbox/maps';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Image, Pressable } from 'react-native';
+import Mapbox, { Camera, MapView, MarkerView } from '@rnmapbox/maps';
 import * as Location from "expo-location";
-import {useNavigation} from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setLatitude, setLongitude } from "../../redux/slices/filters";
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
-import {useDispatch, useSelector,} from "react-redux";
-import {setLatitude, setLongitude} from "../../redux/slices/filters";
 const imagePins = require('../../assets/pinblack.png');
 
-const CustomMap = () => {
-    const navigation = useNavigation()
-    const [status, setStatus] = useState<string | null>(null)
-    const [isEnabled, setIsEnabled] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
-    const mapref = React.useRef(null)
+type Coordinate = [number, number];
+
+interface Restaurant {
+    id: string;
+    name: string;
+    geometry: {
+        location: {
+            lat: number;
+            lng: number;
+        };
+    };
+}
+
+const CustomMap: React.FC = () => {
+    const [status, setStatus] = useState<string | null>(null);
+    const mapRef = React.useRef<Mapbox.MapView>(null);
     const dispatch = useDispatch();
-    const restaurant = useSelector(state => state.restaurants.restaurants)
+    const restaurants = useSelector((state) => state.restaurants.restaurants);
+    const cameraRef = React.useRef<Mapbox.Camera>(null);
+    const [followUser, setFollowUser] = useState(true)
 
     useEffect(() => {
         (async () => {
-            let { status } = await  Location.requestForegroundPermissionsAsync();
+            const { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setStatus('Permission to access location was denied');
                 return;
             }
-            let location = await Location.getCurrentPositionAsync({});
-            dispatch(setLatitude(location.coords.latitude))
-            dispatch(setLongitude(location.coords.longitude))
-
+            const location = await Location.getCurrentPositionAsync({});
+            dispatch(setLatitude(location.coords.latitude));
+            dispatch(setLongitude(location.coords.longitude));
         })();
-    }, []);
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (restaurants.length > 0) {
+            setFollowUser(false);
+        } else {
+            setFollowUser(true);
+        }
+    }, [restaurants]);
+
+    useEffect(() => {
+        if (!followUser && restaurants.length > 0) {
+            const coordinates: Coordinate[] = restaurants.map((item: Restaurant) => [item.geometry.location.lng, item.geometry.location.lat]);
+            const bounds = calculateBounds(coordinates);
+            cameraRef.current?.fitBounds(bounds.sw, bounds.ne, 30, 1300);
+        }
+    }, [followUser, restaurants]);
 
 
-    // @ts-ignore
-    let view = <View style={styles.page}>
-        <View style={styles.container}>
-            <MapView
-                style={styles.map}
-                styleURL="mapbox://styles/alimotor/clw6h3i3z01as01pfasmzeech"
-                projection={"mercator"}
-                logoEnabled={false}
-                compassEnabled={false}
-                scaleBarEnabled={false}
-                ref={mapref}
-            >
-                <Camera
-                    followZoomLevel={13}
-                    followUserLocation
-                />
-                <Mapbox.UserLocation visible={true} animated={true}/>
-                {/*Markers*/}
-                {restaurant.map((item) => {
-                    return   <MarkerView
-                        key={item.name}
-                        id={item.id}
-                        coordinate={[item.geometry.location.lng, item.geometry.location.lat]}
-                        allowOverlap
-                    >
-                        <Pressable
-                            style={{
-                                width: 24,
-                                height: 24,
-                                alignItems: 'center',
-                                justifyContent: 'space-around',
-                            }}
-                            onPress={() => console.log('pressing the marker view')}>
-                            <Image
+    const calculateBounds = (coordinates: Coordinate[]) => {
+        let minX: number | undefined, minY: number | undefined, maxX: number | undefined, maxY: number | undefined;
+
+        coordinates.forEach(coord => {
+            if (minX === undefined || coord[0] < minX) {
+                minX = coord[0];
+            }
+            if (minY === undefined || coord[1] < minY) {
+                minY = coord[1];
+            }
+            if (maxX === undefined || coord[0] > maxX) {
+                maxX = coord[0];
+            }
+            if (maxY === undefined || coord[1] > maxY) {
+                maxY = coord[1];
+            }
+        });
+
+        return {
+            sw: [minX, minY] as Coordinate,
+            ne: [maxX, maxY] as Coordinate,
+        };
+    };
+
+    return (
+        <View style={styles.page}>
+            <View style={styles.container}>
+                <MapView
+                    style={styles.map}
+                    styleURL="mapbox://styles/alimotor/clw6h3i3z01as01pfasmzeech"
+                    projection={"mercator"}
+                    logoEnabled={false}
+                    compassEnabled={false}
+                    scaleBarEnabled={false}
+                    ref={mapRef}
+                >
+                    <Camera
+                        followZoomLevel={14}
+                        followUserLocation={followUser}
+                        ref={cameraRef}
+                        animationDuration={2000}
+                        animationMode={'flyTo'}
+                    />
+                    <Mapbox.UserLocation visible={true} animated={true} />
+                    {/* Markers */}
+                    {restaurants.map((item: Restaurant) => (
+                        <MarkerView
+                            key={item.name}
+                            id={item.id}
+                            coordinate={[item.geometry.location.lng, item.geometry.location.lat]}
+                            allowOverlap
+                        >
+                            <Pressable
                                 style={{
-                                    width: 33,
-                                    height: 33,
-                                    marginVertical: 8,
+                                    width: 24,
+                                    height: 24,
+                                    alignItems: 'center',
+                                    justifyContent: 'space-around',
                                 }}
-                                resizeMode="contain"
-                                source={imagePins}
-                            />
-                        </Pressable>
-                    </MarkerView>
-
-
-                })}
-            </MapView>
+                                onPress={() => console.log('pressing the marker view')}
+                            >
+                                <Image
+                                    style={{
+                                        width: 33,
+                                        height: 33,
+                                        marginVertical: 8,
+                                    }}
+                                    resizeMode="contain"
+                                    source={imagePins}
+                                />
+                            </Pressable>
+                        </MarkerView>
+                    ))}
+                </MapView>
+            </View>
         </View>
-    </View>;
-
-    return view;
-}
-
+    );
+};
 
 export default CustomMap;
 
-// @ts-ignore
 const styles = StyleSheet.create({
     page: {
         flex: 1,
@@ -105,7 +154,7 @@ const styles = StyleSheet.create({
     },
     container: {
         height: "100%",
-        width: "100%"
+        width: "100%",
     },
     map: {
         flex: 1,
