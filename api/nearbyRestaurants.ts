@@ -23,7 +23,7 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
                 location: `${latitude},${longitude}`,
                 radius: distance,
                 type: 'restaurant',
-                keyword: "pizza",
+                keyword: "japonais",
                 key: GOOGLE_PLACES_API_KEY,
                 opennow: false,
                 price_level: price,

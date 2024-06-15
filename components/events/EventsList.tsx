@@ -1,10 +1,10 @@
 import React from 'react';
 import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
-import Back from "../../layout/header/Back";
+import Back from "../layout/header/Back";
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useQuery } from "@tanstack/react-query";
-import { getEvents, getNextEvent } from "../../../api/getEvents";
+import { getEvents, getNextEvent } from "../../api/getEvents";
 import EventCard from "./EventCard";
 import BigEventCard from "./BigEventCard";
 import Animated, {FadeInDown} from 'react-native-reanimated';

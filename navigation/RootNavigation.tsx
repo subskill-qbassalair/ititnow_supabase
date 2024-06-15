@@ -6,7 +6,7 @@ import {supabase} from "../lib/supabase";
 import Home from "../components/home/Home";
 import Menu from "../components/layout/header/Menu";
 import Layout from "../components/auth/Layout";
-import EventsList from "../components/home/Filters/EventsList";
+import EventsList from "../components/events/EventsList";
 import SingleEvent from "../components/events/SingleEvent";
 
 export type RootStackParamList = {

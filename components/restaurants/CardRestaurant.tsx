@@ -5,14 +5,22 @@ function CardRestaurant(data: any) {
     return (
         <View style={styles.container}>
             {data.data.opening_hours ? (
-            <Text style={[styles.bubble, data.data.opening_hours.open_now ? null : styles.closed ]} >{data.data.opening_hours.open_now ? 'Ouvert' : 'Fermé'}</Text>
+                <Text style={[styles.bubble, data.data.opening_hours.open_now ? null : styles.closed ]} >{data.data.opening_hours.open_now ? 'Ouvert' : 'Fermé'}</Text>
             ) : null}
-            <Image
-                style={styles.image}
-                source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${data.data.photos[0].photo_reference}&key=AIzaSyA3I7cXhLM51hRryr_l_70JMJqKuviH4do`}}
-            />
+            {data.data.photos ? (
+                <Image
+                    style={styles.image}
+                    source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${data.data.photos[0].photo_reference}&key=AIzaSyA3I7cXhLM51hRryr_l_70JMJqKuviH4do`}}
+                />
+            ) : (
+                <Image
+                    style={styles.image}
+                    source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${data.data.icon}&key=AIzaSyA3I7cXhLM51hRryr_l_70JMJqKuviH4do`}}
+                />
+            )
+            }
             <View style={styles.text}>
-            <Text style={styles.title}>{data.data.name}</Text>
+                <Text style={styles.title}>{data.data.name}</Text>
                 <View>
                     <Text style={styles.restauInfos} >Note : {data.data.rating} / 5 ( {data.data.user_ratings_total} avis) </Text>
                     <Text style={[styles.restauLocation, {marginTop:5}]} >{data.data.vicinity}</Text>

@@ -6,7 +6,7 @@ import {useNavigation} from "@react-navigation/native";
 import {globalStyles} from "../../../style";
 import ModalFilter from "./ModalFilter";
 import {useDispatch, useSelector} from "react-redux";
-import RestaurantList from "../../result/RestaurantList";
+import RestaurantList from "../../restaurants/RestaurantList";
 import {AntDesign} from "@expo/vector-icons";
 import {setRestaurants} from "../../../redux/slices/restaurants";
 
@@ -54,29 +54,46 @@ function FilterContainer() {
     const handleModal = (modalType: string) => {
         if(modal === ''){
             setModal(modalType)
-            Animated.timing(topAnim, {
-                toValue: 0,
-                duration: 300,
-                useNativeDriver: true,
-            }).start();
-        } else if (modal === modalType) {
-            Animated.timing(topAnim, {
-                toValue: 1000,
-                duration: 300,
-                useNativeDriver: true,
-            }).start();
+            console.log("setModal modalTypeet modal type est égal à : ",modalType)
+            if (modalType === 'hideAll') {
+                hideModal()
+            }
+            else {
+                showModal()
+            }
+        }
+        else if (modal === modalType) {
+            hideModal()
             setTimeout(() => {
                 setModal('')
             }, 300)
-
-        } else {
-            setModal(modalType)
-            Animated.timing(topAnim, {
-                toValue: 0,
-                duration: 300,
-                useNativeDriver: true,
-            }).start();
         }
+        else {
+            hideModal()
+            setModal(modalType)
+            if (modalType === 'hideAll') {
+                hideModal()
+            } else {
+                setTimeout(() => {
+                    showModal()
+                }, 150)
+            }
+        }
+    }
+
+    const showModal = () => {
+        Animated.timing(topAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    }
+    const hideModal = () => {
+        Animated.timing(topAnim, {
+            toValue: 1000,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
     }
 
     const handleFetch = () => {
@@ -91,6 +108,7 @@ function FilterContainer() {
 
     const handleAnimations = () => {
         if(hideMenu){
+            handleModal('hideAll')
             Animated.timing(restauListAnim, {
                 toValue: 0,
                 duration: 300,
@@ -102,9 +120,8 @@ function FilterContainer() {
                 duration: 300,
                 useNativeDriver: true,
             }).start();
-
-
         } else {
+            setModal('')
             Animated.timing(restauListAnim, {
                 toValue: 1000,
                 duration: 300,
@@ -124,6 +141,7 @@ function FilterContainer() {
     }, [hideMenu]);
 
     const navigateEventsScreen = () => {
+        handleModal('hideAll')
         navigation.navigate('EventsList')
     }
 

@@ -21,3 +21,7 @@ export const eventCardDate = (date: string) => {
         return 'Terminé'
     }
 }
+
+export const closeAllFilters = () => {
+
+}

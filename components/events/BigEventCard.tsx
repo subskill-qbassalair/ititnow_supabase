@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, ImageBackground, StyleSheet, Pressable} from "react-native";
-import {globalStyles} from "../../../style";
-import globalStyle from "../../../globalStyle";
-import {eventCardDate} from "../../../utils";
+import {globalStyles} from "../../style";
+import globalStyle from "../../globalStyle";
+import {eventCardDate} from "../../utils";
 import Animated from "react-native-reanimated";
 import {useNavigation} from "@react-navigation/native";
-import {RootStackParamList} from "../../../navigation/RootNavigation";
+import {RootStackParamList} from "../../navigation/RootNavigation";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 function BigEventCard({data}: any) {
