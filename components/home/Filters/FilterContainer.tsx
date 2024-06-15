@@ -15,11 +15,7 @@ import {setType} from "../../../redux/slices/filters";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-type ResultNavigationProp = {
-    Result: {
-        restaurants: any[]
-    }
-}
+
 
 type RootState = {
     filters: {
@@ -30,7 +26,7 @@ type RootState = {
         longitude: number;
         openNow: boolean;
         type: string;
-    };
+    },
 };
 
 function FilterContainer() {

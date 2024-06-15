@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {filters, setDistance, setPriceLevel} from "../../../redux/slices/filters";
+import { setDistance, setPriceLevel} from "../../../redux/slices/filters";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import MoreFilter from "./MoreFilter";
 import OpenNow from "./OpenNow";
+
+
+type sliderProps = {
+    title: string;
+    min: number;
+    max: number;
+    action: any;
+    desc: string[];
+}
+type RootState = {
+    filters: {
+        distance: number;
+        priceLevel: number;
+    }
+}
 
 
 const MoreFiltersComponent = () => {
@@ -23,19 +38,19 @@ const MoreFiltersComponent = () => {
     );
 };
 
-const Slider = ({title, min, max, action, desc}) => {
+const Slider = ({title, min, max, action, desc}:sliderProps) => {
     const [sliderChanging, setSliderChanging] = useState(false);
     const [sliderValue, setSliderValue] = useState([min]);
     const dispatch = useDispatch();
-    let initialValuezz = null;
+    let initialValue = null;
     if(title === "Budget"){
-        initialValuezz = useSelector(state => state.filters.priceLevel)
+        initialValue = useSelector((state: RootState ) => state.filters.priceLevel)
     } else {
-        initialValuezz = useSelector(state => state.filters.distance)
+        initialValue = useSelector((state: RootState) => state.filters.distance)
     }
 
     const sliderValuesChangeStart = () => setSliderChanging(true);
-    const sliderValuesChange = values => setSliderValue(values);
+    const sliderValuesChange = (values: number[]) => setSliderValue(values);
     const sliderValuesChangeFinish = () =>{
         setSliderChanging(false)
         dispatch(action(sliderValue[0]))
@@ -45,7 +60,7 @@ const Slider = ({title, min, max, action, desc}) => {
             <Text style={styles.titleModal} >{title}</Text>
             <View style={styles.container} >
                 <MultiSlider
-                    values={[initialValuezz]}
+                    values={[initialValue]}
                     sliderLength={250}
                     min={min}
                     max={max}
@@ -66,11 +81,11 @@ const Slider = ({title, min, max, action, desc}) => {
     );
 }
 
-const ModalFilter = ({ modal }) => (
+const ModalFilter = ({ modal }: { modal: string }) => (
     <>
         {modal === 'budget' && <Slider title={"Budget"} min={1} max={4} action={setPriceLevel} desc={['Modéré', "Cher"]} />}
         {modal === 'distance' && <Slider title={"Distance"} min={750} max={2200} action={setDistance} desc={['Proche', 'Loin']} />}
-        {modal === 'moreFilters' && <MoreFiltersComponent />}
+        {modal === 'moreFilters' && <MoreFiltersComponent  />}
     </>
 );
 
