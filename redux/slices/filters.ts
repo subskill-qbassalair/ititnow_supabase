@@ -1,30 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     distance: 750,
     priceLevel: 2,
-    cuisineType: 'Pizza',
+    cuisineType: '',
     latitude: 48.867503,
-    longitude: 2.363811
+    longitude: 2.363811,
 }
 
 export const filters = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        setDistance: (state, action) => {
+        setDistance: (state, action: PayloadAction<number>) => {
             state.distance = action.payload
         },
-        setPriceLevel: (state, action) => {
+        setPriceLevel: (state, action: PayloadAction<number>) => {
             state.priceLevel = action.payload
         },
-        setCuisineType: (state, action) => {
+        setCuisineType: (state, action: PayloadAction<string>) => {
             state.cuisineType = action.payload
         },
-        setLatitude: (state, action) => {
+        setLatitude: (state, action: PayloadAction<number>) => {
             state.latitude = action.payload
         },
-        setLongitude: (state, action) => {
+        setLongitude: (state, action: PayloadAction<number>) => {
             state.longitude = action.payload
         }
     }

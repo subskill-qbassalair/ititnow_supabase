@@ -17,13 +17,15 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
 
     const [key, { distance, price, cuisineType, latitude, longitude }] = queryKey;
 
+    console.log(cuisineType, '  <--- is cuisine yype')
+
     try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
             params: {
                 location: `${latitude},${longitude}`,
                 radius: distance,
                 type: 'restaurant',
-                keyword: "japonais",
+                keyword: cuisineType,
                 key: GOOGLE_PLACES_API_KEY,
                 opennow: false,
                 price_level: price,

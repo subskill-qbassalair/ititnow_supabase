@@ -1,31 +1,19 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {setDistance, setPriceLevel} from "../../../redux/slices/filters";
+import {filters, setDistance, setPriceLevel} from "../../../redux/slices/filters";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import MoreFilter from "./MoreFilter";
 
 
-const MoreFilterComponent = ({ filters }) => {
-    const [focusedFilter, setFocusedFilter] = useState(null);
-
-    const handleFocus = (value) => {
-        setFocusedFilter(value);
-    };
+const MoreFiltersComponent = () => {
 
     return (
         <>
             <Text style={styles.titleModal} >Plus de filtres</Text>
             <ScrollView>
                 <View style={styles.filterContainer}>
-                    {filters.map(filter => (
-                        <MoreFilter
-                            key={filter.id}
-                            value={filter.value}
-                            isFocused={focusedFilter === filter.apiId}
-                            setIsFocused={() => handleFocus(filter.apiId)}
-                        />
-                    ))}
+                        <MoreFilter />
                 </View>
             </ScrollView>
         </>
@@ -74,28 +62,12 @@ const Slider = ({title, min, max, action, desc}) => {
         </>
     );
 }
-const MoreFilters = () => (
-    <MoreFilterComponent
-        filters={[
-            { id: 'A', value: 'Américain', apiId: 'american' },
-            { id: 'B', value: 'Anglais', apiId: 'british' },
-            { id: 'C', value: 'Asiatique', apiId: 'asian' },
-            { id: 'D', value: 'Italien', apiId: 'italian' },
-            { id: 'E', value: 'Mexicain', apiId: 'mexican' },
-            { id: 'F', value: 'Français', apiId: 'french' },
-            { id: 'G', value: 'Indien', apiId: 'indian' },
-            { id: 'H', value: 'Japonais', apiId: 'japanese' },
-            { id: 'I', value: 'Thaï', apiId: 'thai' },
-            { id: 'J', value: 'Vietnamien', apiId: 'vietnamese' },
-        ]}
-    />
-);
 
 const ModalFilter = ({ modal }) => (
     <>
         {modal === 'budget' && <Slider title={"Budget"} min={1} max={4} action={setPriceLevel} desc={['Modéré', "Cher"]} />}
         {modal === 'distance' && <Slider title={"Distance"} min={750} max={2200} action={setDistance} desc={['Proche', 'Loin']} />}
-        {modal === 'moreFilters' && <MoreFilters />}
+        {modal === 'moreFilters' && <MoreFiltersComponent />}
     </>
 );
 

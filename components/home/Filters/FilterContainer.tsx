@@ -9,12 +9,24 @@ import {useDispatch, useSelector} from "react-redux";
 import RestaurantList from "../../restaurants/RestaurantList";
 import {AntDesign} from "@expo/vector-icons";
 import {setRestaurants} from "../../../redux/slices/restaurants";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../../navigation/RootNavigation";
 
 type ResultNavigationProp = {
     Result: {
         restaurants: any[]
     }
 }
+
+type RootState = {
+    filters: {
+        distance: number;
+        priceLevel: number;
+        cuisineType: string;
+        latitude: number;
+        longitude: number;
+    };
+};
 
 function FilterContainer() {
     const dispatch = useDispatch()
@@ -25,12 +37,12 @@ function FilterContainer() {
     const topAnim = useRef(new Animated.Value(1000)).current
     const menuAnim = useRef(new Animated.Value(0)).current
     const restauListAnim = useRef(new Animated.Value(1000)).current
-    const navigation = useNavigation<ResultNavigationProp>()
-    const distance = useSelector(state => state.filters.distance)
-    const price = useSelector(state => state.filters.priceLevel)
-    const cuisineType = useSelector(state => state.filters.cuisineType)
-    const latitude = useSelector(state => state.filters.latitude)
-    const longitude = useSelector(state => state.filters.longitude)
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+    const distance = useSelector((state: RootState) => state.filters.distance)
+    const price = useSelector((state: RootState) => state.filters.priceLevel)
+    const cuisineType = useSelector((state: RootState) => state.filters.cuisineType)
+    const latitude = useSelector((state: RootState) => state.filters.latitude)
+    const longitude = useSelector((state: RootState) => state.filters.longitude)
 
     const {data} = useQuery({
         queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude}],
