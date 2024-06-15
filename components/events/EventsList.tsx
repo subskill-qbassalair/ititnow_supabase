@@ -8,6 +8,7 @@ import { getEvents, getNextEvent } from "../../api/getEvents";
 import EventCard from "./EventCard";
 import BigEventCard from "./BigEventCard";
 import Animated, {FadeInDown} from 'react-native-reanimated';
+import Loader from "../Loader";
 
 
 
@@ -54,26 +55,26 @@ function EventsList({ route, navigation }: Props) {
 
             {/* Hero */}
             {nextEvent.isLoading ? (
-                <Text>Loading...</Text>
+                <Loader />
             ) : nextEvent.isError ? (
                 <Text>Error loading events list</Text>
             ) : (
                 <>
-                <BigEventCard data={nextEvent.data} />
-                    {/* Soon events */}
-                    <Animated.View
-                        entering={FadeInDown.delay(300)}
-                        style={styles.wrapperLine}>
-                        <Text style={styles.title}>Les prochains évènements</Text>
-                        <FlatList
-                            horizontal
-                            data={query.data}
-                            initialNumToRender={7}
-                            renderItem={({ item }) =>
-                                <EventCard data={item} />
-                            }
-                        />
-                    </Animated.View>
+                {/*<BigEventCard data={nextEvent.data} />*/}
+                {/*    /!* Soon events *!/*/}
+                {/*    <Animated.View*/}
+                {/*        entering={FadeInDown.delay(300)}*/}
+                {/*        style={styles.wrapperLine}>*/}
+                {/*        <Text style={styles.title}>Les prochains évènements</Text>*/}
+                {/*        <FlatList*/}
+                {/*            horizontal*/}
+                {/*            data={query.data}*/}
+                {/*            initialNumToRender={7}*/}
+                {/*            renderItem={({ item }) =>*/}
+                {/*                <EventCard data={item} />*/}
+                {/*            }*/}
+                {/*        />*/}
+                {/*    </Animated.View>*/}
 
                     {/* Next week events */}
                     {/*<Animated.View*/}
