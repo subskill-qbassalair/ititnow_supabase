@@ -1,6 +1,7 @@
 import axios from 'axios';
 // @ts-ignore
 import { GOOGLE_PLACES_API_KEY } from "@env";
+import openNow from "../components/home/Filters/OpenNow";
 
 interface QueryKey {
     distance: number;
@@ -15,19 +16,20 @@ interface Restaurant {
 }
 const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
 
-    const [key, { distance, price, cuisineType, latitude, longitude }] = queryKey;
+    const [key, { distance, price, cuisineType, latitude, longitude, type, openNow }] = queryKey;
 
-    console.log(cuisineType, '  <--- is cuisine yype')
+    console.log(openNow)
+    console.log(type)
 
     try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
             params: {
                 location: `${latitude},${longitude}`,
                 radius: distance,
-                type: 'restaurant',
+                type: type,
                 keyword: cuisineType,
                 key: GOOGLE_PLACES_API_KEY,
-                opennow: false,
+                opennow: openNow,
                 price_level: price,
             }
         })

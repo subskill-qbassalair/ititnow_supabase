@@ -1,16 +1,16 @@
 import React, {useMemo, useState} from 'react';
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet  } from "react-native";
 import {useDispatch} from "react-redux";
 import {setCuisineType} from "../../../redux/slices/filters";
 import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
-import {log} from "expo/build/devtools/logger";
+
 
 
 function MoreFilter() {
     const dispatch = useDispatch()
 
     const radioButtons: RadioButtonProps[] = useMemo(() => ([
-        {id: '1', label: 'Américain', value: 'american'},
+        {id: '1', label: 'Américain', value: 'american', backgroundColor: 'white'},
         {id: '2', label: 'Anglais', value: 'british'},
         {id: '3', label: 'Asiatique', value: 'asian'},
         {id: '5', label: 'Belge', value: 'belgian'},
@@ -29,9 +29,6 @@ function MoreFilter() {
 
     ]), []);
 
-    // const toggleActive = () => {
-    //     active ? dispatch(setCuisineType('')) : dispatch(setCuisineType(value));
-    // };
     const setCuisine = (id: string) => {
         setSelectedId(id);
         const value = radioButtons.find((radio) => radio.id === id)?.value
@@ -47,7 +44,10 @@ function MoreFilter() {
                 radioButtons={radioButtons}
                 onPress={setCuisine}
                 selectedId={selectedId}
+                layout='row'
+                containerStyle={styles.budgetFilter}
             />
+
         </>
 
 

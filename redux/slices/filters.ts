@@ -6,6 +6,8 @@ const initialState = {
     cuisineType: '',
     latitude: 48.867503,
     longitude: 2.363811,
+    openNow: false,
+    type: 'restaurant'
 }
 
 export const filters = createSlice({
@@ -26,10 +28,16 @@ export const filters = createSlice({
         },
         setLongitude: (state, action: PayloadAction<number>) => {
             state.longitude = action.payload
+        },
+        setOpenNow: (state, action: PayloadAction<boolean>) => {
+            state.openNow = action.payload
+        },
+        setType: (state, action: PayloadAction<string>) => {
+            state.type = action.payload
         }
     }
 })
 
-export const { setDistance, setPriceLevel, setCuisineType, setLongitude, setLatitude } = filters.actions
+export const { setDistance, setPriceLevel, setCuisineType, setLongitude, setLatitude, setType, setOpenNow } = filters.actions
 
 export default filters.reducer

@@ -11,6 +11,9 @@ import {AntDesign} from "@expo/vector-icons";
 import {setRestaurants} from "../../../redux/slices/restaurants";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../../navigation/RootNavigation";
+import {setType} from "../../../redux/slices/filters";
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 type ResultNavigationProp = {
     Result: {
@@ -25,6 +28,8 @@ type RootState = {
         cuisineType: string;
         latitude: number;
         longitude: number;
+        openNow: boolean;
+        type: string;
     };
 };
 
@@ -43,9 +48,12 @@ function FilterContainer() {
     const cuisineType = useSelector((state: RootState) => state.filters.cuisineType)
     const latitude = useSelector((state: RootState) => state.filters.latitude)
     const longitude = useSelector((state: RootState) => state.filters.longitude)
+    const openNow = useSelector((state: RootState) => state.filters.openNow)
+    const type = useSelector((state: RootState) => state.filters.type)
+    const [activeButton, setActiveButton] = useState('restaurant');
 
     const {data} = useQuery({
-        queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude}],
+        queryKey: ['restaurants', {distance, price, cuisineType, latitude, longitude, openNow, type}],
         queryFn: getNearbyRestaurants,
         enabled: isEnabled,
     })
@@ -100,6 +108,11 @@ function FilterContainer() {
         setIsEnabled(true)
         setIsLoading(true)
     }
+
+    const handlePress = (type: string) => {
+        setActiveButton(type);
+        dispatch(setType(type));
+    };
 
     const handleRestaurantList = () => {
         setHideMenu(false)
@@ -162,6 +175,23 @@ function FilterContainer() {
                         <Text style={{fontSize:14}}>Évènements</Text>
                     </TouchableOpacity>
 
+                    <View style={{display:'flex', flexDirection: 'row', gap:5}}>
+                        <TouchableOpacity
+                            style={[styles.btnMoreFilter, styles.btn, activeButton === 'bar' ? globalStyles.shadow : null  ]}
+                            onPress={ () => handlePress('bar') }
+                        >
+                            <Text style={{fontSize:14}}><FontAwesome5 name="cocktail" size={20} color={activeButton === 'bar' ? 'black' : '#51796F' } /></Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.btnMoreFilter, styles.btn, activeButton === 'restaurant' ? globalStyles.shadow : null ]}
+                            onPress={ () => handlePress('restaurant')}
+                        >
+                            <Text style={{fontSize:14}}><Ionicons name="restaurant" size={20} color={activeButton === 'restaurant' ? 'black' : '#51796F' } /></Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+
                     <TouchableOpacity
                         style={[styles.btnMoreFilter, styles.btn, globalStyles.shadow ]}
                         onPress={ () => handleModal('moreFilters') }
@@ -190,7 +220,7 @@ function FilterContainer() {
                         style={[styles.btn, styles.bigCta, globalStyles.shadow]}
                         onPress={() => handleFetch()}
                     >
-                        <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Trouve moi un restau'}</Text>
+                        <Text style={{fontSize: 26, fontFamily: 'PoppinsBold'}} >{isLoading ? '...' : 'Rechercher'}</Text>
                     </TouchableOpacity> }
                 </View>
             </Animated.View>
@@ -307,14 +337,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '15%',
         left: 0,
-        borderTopEndRadius: 20,
-        borderTopStartRadius: 20,
+        borderRadius: 20,
         width: '100%',
-        height: '100%',
+        height: 400,
         backgroundColor: '#51796F',
         alignItems: 'center',
         zIndex: 1,
-        paddingHorizontal: 20,
-        paddingVertical: "20%",
+        padding: 20,
+
     },
 })

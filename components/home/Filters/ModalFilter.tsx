@@ -4,19 +4,22 @@ import {useDispatch, useSelector} from 'react-redux';
 import {filters, setDistance, setPriceLevel} from "../../../redux/slices/filters";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import MoreFilter from "./MoreFilter";
+import OpenNow from "./OpenNow";
 
 
 const MoreFiltersComponent = () => {
 
     return (
-        <>
+
+        <ScrollView>
+            <Text style={styles.titleModal} >Ouvert maintenant ?</Text>
+            <OpenNow />
+
             <Text style={styles.titleModal} >Plus de filtres</Text>
-            <ScrollView>
-                <View style={styles.filterContainer}>
-                        <MoreFilter />
-                </View>
-            </ScrollView>
-        </>
+            <View style={styles.filterContainer}>
+                <MoreFilter />
+            </View>
+        </ScrollView>
     );
 };
 
@@ -50,13 +53,13 @@ const Slider = ({title, min, max, action, desc}) => {
                     onValuesChange={sliderValuesChange}
                     onValuesChangeFinish={sliderValuesChangeFinish}
                     snapped
-                    selectedStyle={{ backgroundColor: 'white' }}
+                    selectedStyle={{ backgroundColor: 'black' }}
                     unselectedStyle={{ backgroundColor: 'silver' }}
                     markerStyle={{ backgroundColor: '#51796F' }}
                 />
                 <View style={styles.wrapperDesc}>
-                    <Text style={{color:"white"}} >{desc[0]}</Text>
-                    <Text style={{color:"white"}} >{desc[1]}</Text>
+                    <Text style={{color:"black"}} >{desc[0]}</Text>
+                    <Text style={{color:"black"}} >{desc[1]}</Text>
                 </View>
             </View>
         </>
@@ -79,7 +82,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        marginBottom: 20,
         flexWrap: 'wrap',
     },
 
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 20,
-        backgroundColor: "#405F57",
+        backgroundColor: "#FFFFFF",
         padding: 30,
         borderRadius: 10,
         marginTop: 20,
