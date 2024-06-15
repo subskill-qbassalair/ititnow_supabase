@@ -18,9 +18,6 @@ const getNearbyRestaurants = async ({queryKey}: {QueryKey: QueryKey}) => {
 
     const [key, { distance, price, cuisineType, latitude, longitude, type, openNow }] = queryKey;
 
-    console.log(openNow)
-    console.log(type)
-
     try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
             params: {

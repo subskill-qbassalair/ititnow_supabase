@@ -15,13 +15,12 @@ export type RootStackParamList = {
     Result: undefined;
     EventsList: undefined;
     SingleEvent: { event: any };
+    Auth: undefined;
 }
 
 function RootNavigation() {
     const Stack = createNativeStackNavigator<RootStackParamList>()
-    const navigation = useNavigation()
     const [initialRoute, setInitialRoute] = useState('Auth')
-
     const [session, setSession] = useState<Session | null>(null)
 
     useEffect(() => {
@@ -33,10 +32,6 @@ function RootNavigation() {
             setSession(session)
         })
     }, [])
-
-
-
-
 
     return (
         <Stack.Navigator

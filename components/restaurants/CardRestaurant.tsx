@@ -15,7 +15,7 @@ function CardRestaurant(data: any) {
             ) : (
                 <Image
                     style={styles.image}
-                    source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${data.data.icon}&key=AIzaSyA3I7cXhLM51hRryr_l_70JMJqKuviH4do`}}
+                    source={require('../../assets/icons/adaptive-icon.png')}
                 />
             )
             }

@@ -27,7 +27,6 @@ type Props = {
 }
 
 function EventCard({data}: Props) {
-    console.log(data.image)
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     // @ts-ignore
     return (

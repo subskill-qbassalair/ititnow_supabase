@@ -22,11 +22,17 @@ interface Restaurant {
     };
 }
 
+interface RootState {
+    restaurants: {
+        restaurants: Restaurant[];
+    };
+}
+
 const CustomMap: React.FC = () => {
     const [status, setStatus] = useState<string | null>(null);
     const mapRef = React.useRef<Mapbox.MapView>(null);
     const dispatch = useDispatch();
-    const restaurants = useSelector((state) => state.restaurants.restaurants);
+    const restaurants = useSelector((state: RootState) => state.restaurants.restaurants);
     const cameraRef = React.useRef<Mapbox.Camera>(null);
     const [followUser, setFollowUser] = useState(true)
 
@@ -56,6 +62,7 @@ const CustomMap: React.FC = () => {
             const coordinates: Coordinate[] = restaurants.map((item: Restaurant) => [item.geometry.location.lng, item.geometry.location.lat]);
             const bounds = calculateBounds(coordinates);
             cameraRef.current?.fitBounds(bounds.sw, bounds.ne, 30, 1300);
+            console.log(cameraRef.current?.zoomTo)
         }
     }, [followUser, restaurants]);
 
@@ -97,7 +104,8 @@ const CustomMap: React.FC = () => {
                     ref={mapRef}
                 >
                     <Camera
-                        followZoomLevel={14}
+                        zoomLevel={14}
+                        minZoomLevel={14}
                         followUserLocation={followUser}
                         ref={cameraRef}
                         animationDuration={2000}

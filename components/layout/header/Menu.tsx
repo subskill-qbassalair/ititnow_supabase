@@ -3,11 +3,11 @@ import {View, Text, StyleSheet, Pressable, TouchableOpacity} from "react-native"
 import {useNavigation} from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
 import { supabase } from '../../../lib/supabase';
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../../navigation/RootNavigation";
 
 function Menu() {
-    const navigation = useNavigation()
-    // const dispatch = useDispatch()
-
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
     async function signOut() {
         const { error } = await supabase.auth.signOut()
         if (error) {

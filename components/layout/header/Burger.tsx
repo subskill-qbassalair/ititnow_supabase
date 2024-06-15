@@ -3,10 +3,12 @@ import {View, StyleSheet, TouchableOpacity} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons';
 import { globalStyles } from "../../../style";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../../navigation/RootNavigation";
 
 
 function Burger() {
-    const navigation = useNavigation()
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
 
     return (
