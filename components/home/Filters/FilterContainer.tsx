@@ -54,13 +54,7 @@ function FilterContainer() {
     const handleModal = (modalType: string) => {
         if(modal === ''){
             setModal(modalType)
-            console.log("setModal modalTypeet modal type est égal à : ",modalType)
-            if (modalType === 'hideAll') {
-                hideModal()
-            }
-            else {
-                showModal()
-            }
+            modalType === 'hideAll' ? hideModal() : showModal()
         }
         else if (modal === modalType) {
             hideModal()
@@ -71,13 +65,7 @@ function FilterContainer() {
         else {
             hideModal()
             setModal(modalType)
-            if (modalType === 'hideAll') {
-                hideModal()
-            } else {
-                setTimeout(() => {
-                    showModal()
-                }, 150)
-            }
+            modalType === 'hideAll' ? hideModal() :  setTimeout(() => {showModal()}, 150)
         }
     }
 
