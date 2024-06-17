@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#51796F"
       },
-      "package": "com.quentin.ititnow"
+      "package": "com.quentin-bassalair.ititnow"
     },
     "web": {
       "favicon": "./assets/icons/favicon.png"
