@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#51796F"
       },
-      "package": "com.anonymous.ititnow_supabase"
+      "package": "com.quentin.ititnow"
     },
     "web": {
       "favicon": "./assets/icons/favicon.png"
