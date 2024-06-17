@@ -9,6 +9,8 @@ interface QueryKey {
     cuisineType: string;
     latitude: number;
     longitude: number;
+    type: string;
+    openNow: boolean;
 }
 
 interface Restaurant {
