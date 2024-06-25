@@ -2,8 +2,7 @@ import React from 'react';
 import {Pressable, Text, View} from "react-native";
 import {StyleSheet} from "react-native";
 
-
-function Cta({text, onPress}) {
+function Cta({text, onPress}: {text: string, onPress: () => void}) {
     return (
         <Pressable onPress={onPress} >
             <View style={styles.cta} >

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ititnow",
     "slug": "ititnow_supabase",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "ititnow",
+      "bundleIdentifier": "com.quentin-bassalair.ititnow",
       "splash": {
         "image": "./assets/icons/splash.png",
         "resizeMode": "contain",
@@ -25,7 +25,11 @@
         "foregroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#51796F"
       },
-      "package": "com.quentin-bassalair.ititnow"
+      "package": "com.quentinbassalair.ititnow",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/icons/favicon.png"
@@ -45,6 +49,11 @@
           "RNMapboxMapsVersion": "11.0.0"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "722a7e13-ab51-4447-9dd5-013b57be4986"
+      }
+    }
   }
 }

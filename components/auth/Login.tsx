@@ -7,12 +7,17 @@ import Checkbox from "expo-checkbox";
 import {supabase} from "../../lib/supabase";
 import {globalStyles} from "../../style";
 
+import { Entypo } from '@expo/vector-icons';
+
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isChecked, setChecked] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [iconLeft, setIconLeft] = useState(null)
+
+
 
 
     async function signInWithEmail() {

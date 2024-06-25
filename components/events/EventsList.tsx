@@ -57,7 +57,7 @@ function EventsList({ route, navigation }: Props) {
             ) : nextEvent.isError ? (
                 <Text>Error loading events list</Text>
             ) : (
-                
+
                     <ScrollView style={styles.container}>
                         <Back navigation={navigation} />
                         <BigEventCard data={nextEvent.data} />
@@ -95,6 +95,8 @@ function EventsList({ route, navigation }: Props) {
         </>
     );
 }
+
+
 
 export default EventsList;
 

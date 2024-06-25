@@ -4,13 +4,14 @@ import {StyleSheet} from "react-native";
 
 // Pictos
 
-function Input({placeHolder, type, iconLeft, iconRight, onChangeText, value  }) {
+
+function Input({placeHolder, type, iconLeft, iconRight, onChangeText, value}: {placeHolder: string, type: string, iconLeft: any, iconRight: any, onChangeText: (value: string) => void, value: string}){
     const [opacity, setOpacity] = useState(0);
     const [paddingTop, setPaddingTop] = useState(0);
     const [secureTextEntry, setSecureTextEntry] = useState(true);
 
 
-    const listenInput = (value: string) => {
+    const listenInput = (value : string) => {
         onChangeText(value)
         if (value.length > 0) {
             setOpacity(1);
