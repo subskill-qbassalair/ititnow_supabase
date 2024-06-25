@@ -25,8 +25,6 @@ function Register() {
             email: email,
             password: password,
         })
-
-        // if (error) Alert.alert(error.message)
         if (!session) setModalVisible(true)
         setLoading(false)
     }
@@ -36,14 +34,14 @@ function Register() {
             <Input
                 placeHolder={'Email'}
                 type={'email'}
-                iconLeft={21} iconRight={25}
+                iconLeft={'email'} iconRight={['reset','reset']}
                 onChangeText={setEmail}
                 value={email}
             />
             <Input
                 placeHolder={'Mot de passe'}
                 type={'password'}
-                iconLeft={22} iconRight={[23, 24]}
+                iconLeft={'password'} iconRight={['eye', 'eye-off']}
                 value={password}
                 onChangeText={setPassword}
             />

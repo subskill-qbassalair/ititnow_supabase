@@ -7,9 +7,6 @@ import Checkbox from "expo-checkbox";
 import {supabase} from "../../lib/supabase";
 import {globalStyles} from "../../style";
 
-import { Entypo } from '@expo/vector-icons';
-
-
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -36,14 +33,14 @@ function Login() {
             <Input
                 placeHolder={'Email'}
                 type={'email'}
-                iconLeft={21} iconRight={25}
+                iconLeft={'email'} iconRight={['reset','reset']}
                 onChangeText={setEmail}
                 value={email}
             />
             <Input
                 placeHolder={'Mot de passe'}
                 type={'password'}
-                iconLeft={22} iconRight={[23, 24]}
+                iconLeft={'password'} iconRight={['eye', 'eye-off']}
                 onChangeText={setPassword}
                 value={password}
             />
@@ -58,7 +55,7 @@ function Login() {
                     <Text style={globalStyles.paragraph}>Se souvenir de moi</Text>
                 </View>
                 <View>
-                    <Text style={{ color:'#6FB2AE' }} >Mot de passe oublie ?</Text>
+                    <Text style={{ color:'#6FB2AE' }} >Mot de passe oublié ?</Text>
                 </View>
             </View>
             <Cta text={'Connexion'} onPress={signInWithEmail} />
